@@ -204,5 +204,10 @@ public class KeyWord {
 		return element.size();
 
 	}
+	
+	//For Kids
+	public static WebElement getElement(By locator) {
+		return driver.findElement(locator);
+	}
 
 }
