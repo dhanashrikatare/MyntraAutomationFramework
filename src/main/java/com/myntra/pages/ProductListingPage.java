@@ -1,13 +1,12 @@
 package com.myntra.pages;
 
 import static com.myntra.basetest.KeyWord.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
+
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -73,6 +72,10 @@ public class ProductListingPage {
 
 	@FindBy(xpath = "//h4[text()='Colour Family']")
 	WebElement ColourSelect;
+	By filters = By.xpath("//span[text()='FILTERS']");
+	By boys_filter = By.xpath("//label[contains(text(),'Boys')]");
+	By girls_filter = By.xpath("//label[contains(text(),'Girls')]");
+
 
 	{
 		PageFactory.initElements(KeyWord.driver, this);
@@ -125,6 +128,17 @@ public class ProductListingPage {
 		throw new RuntimeException("Sort option not found: " + optionText);
 
 	}
+	// Apply Boys filter
+		public void selectBoysFilter() {
+
+			getElement(boys_filter).click();
+
+		}
+
+		// Apply Girls filter
+		public void selectGirlsFilter() {
+			getElement(girls_filter).click();
+		}
 
 	public void filterByProductColour(String colour) {
 		
