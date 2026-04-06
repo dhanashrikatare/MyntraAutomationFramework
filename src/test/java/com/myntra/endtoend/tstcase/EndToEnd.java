@@ -1,0 +1,393 @@
+package com.myntra.endtoend.tstcase;
+
+import java.util.List;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+
+import com.myntra.basetest.BaseClass;
+import com.myntra.basetest.KeyWord;
+import com.myntra.pages.AddToCartPage;
+import com.myntra.pages.BeautyPage;
+import com.myntra.pages.HomePage;
+import com.myntra.pages.ProductDetails;
+import com.myntra.pages.ProductListingPage;
+import com.myntra.pages.SearchResultPage;
+import com.myntra.utils.ConfigReader;
+import com.myntra.utils.ExcelReader;
+import com.myntra.utils.WaitFor;
+import com.myntra.dataprovider.*;
+
+public class EndToEnd extends BaseClass {
+
+	BeautyPage beauty = new BeautyPage();
+
+	@Test(priority = 1, groups = { "sanity",
+			"regression" }, description = "test case to see beauty page is successfully load or not")
+	public void verifyBeautyPageLoads() {
+
+		HomePage home = new HomePage();
+		home.clickBeautyMenu();
+		BeautyPage beauty = new BeautyPage();
+		String actualurl = beauty.getcurrentUrl();
+		Assert.assertTrue(actualurl.contains("https://www.myntra.com/personal-care"));
+
+	}
+
+	@Test(priority = 2, dataProvider = "searchData", dataProviderClass = MyntraSearchTest.class)
+	public void verifySearchValidProducts(String product) {
+
+		SearchResultPage search = new SearchResultPage();
+		search.clickOnSearchResultsHeader();
+		search.enterTextOnSearchBar(product);
+		search.enterPressOnSearchBar();
+		String title = KeyWord.driver.getTitle();
+		Assert.assertTrue(title.toLowerCase().contains(product));
+
+	}
+
+	@Test
+	public void verifySearchInvalidProducts() {
+		SearchResultPage search = new SearchResultPage();
+		search.clickOnSearchResultsHeader();
+		search.enterTextOnSearchBar("xyzabc99999nonsense");
+		search.enterPressOnSearchBar();
+
+		Assert.assertTrue(beauty.areProductsVisible(), "on invlaid search products are display which is wrong");
+
+	}
+
+	@Test
+	public void verifySearchInvalidProductsWithSpecialChar() {
+
+		SearchResultPage search = new SearchResultPage();
+		search.clickOnSearchResultsHeader();
+		search.enterTextOnSearchBar("@#$%^&*()");
+		search.enterPressOnSearchBar();
+
+		String title = KeyWord.driver.getTitle();
+		Assert.assertNotNull(beauty.getPageTitle());
+
+	}
+
+	@Test
+	public void verifySearchInvalidProductsWithBlankFields() {
+		SearchResultPage search = new SearchResultPage();
+		search.clickOnSearchResultsHeader();
+		search.enterTextOnSearchBar(" ");
+		search.enterPressOnSearchBar();
+
+	}
+
+	@Test(dataProvider = "searchData", dataProviderClass = MyntraSearchTest.class)
+	public void verifyValidProductIsgettingSearchAndProductDetailPageOpens(String product) {
+		SearchResultPage search = new SearchResultPage();
+		ProductListingPage plp = new ProductListingPage();
+		ProductDetails pdp = new ProductDetails();
+		search.clickOnSearchResultsHeader();
+		search.enterTextOnSearchBar(product);
+		search.enterPressOnSearchBar();
+		String expected = plp.getProductText(2);
+		// prodcutlisting page opens
+		plp.clickProduct(2);
+
+		KeyWord.switchToNewTab();
+		// product detail page opens
+		String ActualpdpName = pdp.getBrandName();
+
+		Assert.assertTrue(expected.contains(ActualpdpName));
+
+//		String title=KeyWord.driver.getTitle();
+//		Assert.assertTrue(title.toLowerCase().contains(product));	
+
+	}
+
+	@Test
+	public void verifyLipstickProductsIsdisplayedOnproductListingPage() {
+		SearchResultPage search = new SearchResultPage();
+		search.clickOnSearchResultsHeader();
+		search.enterTextOnSearchBar("lipsticks");
+		search.enterPressOnSearchBar();
+		// product listing page is displayed after product search
+
+		ProductListingPage plp = new ProductListingPage();
+		int product_count = plp.getProductCount();
+		System.out.println("lipsticks product count on first page:" + product_count);
+
+		Assert.assertTrue(product_count > 0);
+
+		plp.getAllProductsBrands();
+
+	}
+
+	@Test(dataProvider = "brandData", dataProviderClass = ExcelReader.class)
+	public void verifyValidBrandFilterIsAppliedAndProductsDisplayedRelatedToThatBrandOnly(String brandName)
+			throws InterruptedException {
+		KeyWord.driver.get(ConfigReader.get("base.url"));
+
+		SearchResultPage search = new SearchResultPage();
+		search.clickOnSearchResultsHeader();
+		search.enterTextOnSearchBar("lipsticks");
+		search.enterPressOnSearchBar();
+
+		ProductListingPage plp = new ProductListingPage();
+		plp.filterByBrand(brandName);
+		// Thread.sleep(3000);
+
+		List<String> brandNames = plp.getAllProductsBrands();
+		System.out.println(brandNames);
+
+		int count = plp.getProductCount();
+		System.out.println(count);
+
+		for (String brand : brandNames) {
+			Assert.assertEquals(brand, brandName);
+		}
+
+	}
+
+	@Test(dataProvider = "colourData", dataProviderClass = MyntraSearchTest.class)
+	public void verifyValidColourFilterIsAppliedAndProductsDisplayedRelatedToThatColourOnly(String colour)
+			throws InterruptedException {
+		KeyWord.driver.get(ConfigReader.get("base.url"));
+		SearchResultPage search = new SearchResultPage();
+		search.clickOnSearchResultsHeader();
+		search.enterTextOnSearchBar("lipsticks");
+		search.enterPressOnSearchBar();
+
+		ProductListingPage plp = new ProductListingPage();
+		plp.filterByProductColour(colour);
+
+		System.out.println("colour is selected successfully");
+
+		List<String> colourNames = plp.getAllProductsColours();
+		System.out.println(colourNames);
+
+		int count = plp.getProductCount();
+		System.out.println(count);
+
+		for (String productcolour : colourNames) {
+			Assert.assertTrue(productcolour.toLowerCase().contains(colour.toLowerCase()), "Mismatch: " + productcolour);
+		}
+
+	}
+
+	public void verifyValidGenderFilterIsAppliedAndProductsDisplayedRelatedToThatGenderOnly()
+			throws InterruptedException {
+		SearchResultPage search = new SearchResultPage();
+		search.clickOnSearchResultsHeader();
+		search.enterTextOnSearchBar("lipsticks");
+		search.enterPressOnSearchBar();
+
+		ProductListingPage plp = new ProductListingPage();
+		plp.filterByGender(null);
+
+	}
+
+	@Test
+	public void verifyClearAllFiltersFunctionality() throws InterruptedException {
+		SearchResultPage search = new SearchResultPage();
+		search.clickOnSearchResultsHeader();
+		search.enterTextOnSearchBar("lipsticks");
+		search.enterPressOnSearchBar();
+
+		ProductListingPage plp = new ProductListingPage();
+		plp.filterByBrand("Maybelline");
+		plp.filterByProductColour("red");
+
+		plp.clearAllFilters();
+
+		int productCountAfterClearingFilters = plp.getProductCount();
+
+		System.out.println("product count after clearing filters: " + productCountAfterClearingFilters);
+
+		Assert.assertTrue(productCountAfterClearingFilters > 0,
+				"after clearing filters no products are displayed which is wrong");
+	}
+
+	@Test
+	public void verifyProductDetailsPageOpensWithCorrectProductInformation() throws InterruptedException {
+		SearchResultPage search = new SearchResultPage();
+		ProductListingPage plp = new ProductListingPage();
+		ProductDetails pdp = new ProductDetails();
+		search.clickOnSearchResultsHeader();
+		search.enterTextOnSearchBar("lipsticks");
+		search.enterPressOnSearchBar();
+
+		String expected = plp.getProductText(1);
+
+		plp.clickProduct(1);
+
+		KeyWord.switchToNewTab();
+
+		String actual = pdp.getBrandName();
+		
+		SoftAssert softly = new SoftAssert();
+		String ActualResult=pdp.getTextOfBreadcrumb();
+		softly.assertTrue(ActualResult.toLowerCase().contains(expected) || ActualResult.toLowerCase().contains("lipstick"), "Breadcrumb does not contain 'beauty' or 'lipstick'. Actual breadcrumb: " + ActualResult);
+		softly.assertTrue(expected.contains(actual));
+		softly.assertAll();
+		System.out.println("passed successfully");
+	}
+	
+	@Test
+	public void verifyProductOnProductDetailsPageIsRelatedToTheProductSelectedOnProductListingPage() throws InterruptedException {
+		SearchResultPage search = new SearchResultPage();
+		ProductListingPage plp = new ProductListingPage();
+		ProductDetails pdp = new ProductDetails();
+		search.clickOnSearchResultsHeader();
+		search.enterTextOnSearchBar("lipsticks");
+		search.enterPressOnSearchBar();
+
+		String expected = plp.getProductText(1);
+
+		plp.clickProduct(1);
+
+		KeyWord.switchToNewTab();
+
+		String actual = pdp.getBrandName();
+		String ActualPrice=pdp.getSellingPrice();
+		
+		SoftAssert softly = new SoftAssert();
+		softly.assertTrue(pdp.isAddToBagButtonDisplayed(), "Add to Bag button is not displayed on the product details page.");
+		softly.assertTrue(pdp.isBreadcrumbVisible());
+		softly.assertTrue(pdp.isWishListButtonDisplayed(), "Wishlist button is not displayed on the product details page.");
+		softly.assertTrue(pdp.isProductPriceIsVisible(), "Product price is not visible on the product details page.");
+		//softly.assertTrue(expected.contains(ActualPrice), "Product details do not match the product selected on the listing page. Expected: " + expected + ", Actual Brand: " + actual + ", Actual Price: " + ActualPrice);
+
+		softly.assertAll();
+	}
+	
+	
+
+	@Test(dataProvider = "sortBy", dataProviderClass = MyntraSearchTest.class)
+	public void verifySortingByoptionForTheProducts(String OptionText) throws InterruptedException {
+		KeyWord.driver.get(ConfigReader.get("base.url"));
+		SearchResultPage search = new SearchResultPage();
+		ProductListingPage plp = new ProductListingPage();
+		search.clickOnSearchResultsHeader();
+		search.enterTextOnSearchBar("lipsticks");
+		search.enterPressOnSearchBar();
+
+		plp.sortBy(OptionText);
+
+		List<Double> prices = plp.getAllProductsPrices();
+
+		for (int i = 0; i < prices.size() - 1; i++) {
+			Assert.assertTrue(prices.get(i) <= prices.get(i + 1),
+					"Sorting error: " + prices.get(i) + " is not less than or equal to " + prices.get(i + 1));
+		}
+	}
+
+	public void verifySortingByPriceHighToLow() throws InterruptedException {
+		SearchResultPage search = new SearchResultPage();
+		ProductListingPage plp = new ProductListingPage();
+		search.clickOnSearchResultsHeader();
+		search.enterTextOnSearchBar("lipsticks");
+		search.enterPressOnSearchBar();
+
+		plp.sortBy("Price: High to Low");
+
+		List<Double> prices = plp.getAllProductsPrices();
+
+		for (int i = 0; i < prices.size() - 1; i++) {
+			Assert.assertTrue(prices.get(i) >= prices.get(i + 1),
+					"Sorting error: " + prices.get(i) + " is not greater than or equal to " + prices.get(i + 1));
+		}
+	}
+
+	@Test
+	public void verifyInvalidColourSearchReturnsNoProducts() {
+		SearchResultPage search = new SearchResultPage();
+		search.clickOnSearchResultsHeader();
+		search.enterTextOnSearchBar("lipsticks");
+		search.enterPressOnSearchBar();
+
+		ProductListingPage plp = new ProductListingPage();
+		plp.filterByProductColour("invalidcolour");
+
+		int productCount = plp.getProductCount();
+
+		Assert.assertEquals(productCount, 0, "Expected no products, but found: " + productCount);
+	}
+	
+	
+	
+	
+	@Test
+	public void verifyTheSearchAndSelectedProductIsAddedToTheWishListWithoutLogin(){
+		
+		
+		SearchResultPage search = new SearchResultPage();
+		search.clickOnSearchResultsHeader();
+		search.enterTextOnSearchBar("Lipstick");
+		search.enterPressOnSearchBar();
+
+		ProductListingPage page = new ProductListingPage();
+		page.filterByGender("Women");
+		page.filterByBrand("Lakme");
+		page.sortBy("popularity");
+
+		page.filterByColour("Pink");
+
+		page.filterByDiscountRange("30% and above");
+
+		page.clickProduct(1);
+		KeyWord.switchToNewTab();
+
+		ProductDetails pdp = new ProductDetails();
+//		pdp.getBrandName();
+		
+		pdp.clickOnwishListButton();
+		
+		String Actualurl=pdp.getCurrentUrl();
+		
+		
+		Assert.assertTrue(Actualurl.contains("login"));
+		
+	}
+	
+	@Test
+	public void verifyTheSearchAndSelectedProductwithBlankPinCodeField() {
+		
+		SearchResultPage search = new SearchResultPage();
+		search.clickOnSearchResultsHeader();
+		search.enterTextOnSearchBar("Lipstick");
+		search.enterPressOnSearchBar();
+
+		ProductListingPage page = new ProductListingPage();
+		page.filterByGender("Women");
+		page.filterByBrand("Lakme");
+		page.sortBy("popularity");
+
+		page.filterByColour("Pink");
+
+		page.filterByDiscountRange("30% and above");
+
+		page.clickProduct(1);
+		KeyWord.switchToNewTab();
+
+		ProductDetails pdp = new ProductDetails();
+		
+		pdp.clickaddToBagProduct();
+		pdp.clickGoToBag();
+		
+		AddToCartPage cart=new AddToCartPage();
+		cart.clickOnPincodeButton();
+		
+		cart.clickOnPincodeAndCheckField();
+		
+		String ActualMsg=cart.getErrorMsg();
+		System.out.println(ActualMsg);
+		Assert.assertTrue(ActualMsg.contains("Please enter a valid pincode."));
+		
+		
+		
+		
+	}
+	
+	
+	
+
+}
