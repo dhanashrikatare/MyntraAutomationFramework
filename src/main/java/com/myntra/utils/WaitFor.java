@@ -67,6 +67,7 @@ public class WaitFor {
 		
 		return wait.until(ExpectedConditions.visibilityOfAllElements(elements));
 	}
+
 	
 	
 	
