@@ -20,8 +20,8 @@ import com.myntra.utils.WaitFor;
 import com.myntra.dataprovider.*;
 
 public class EndToEnd extends BaseClass {
-
-	BeautyPage beauty = new BeautyPage();
+	 BeautyPage beauty = new BeautyPage();
+	
 
 	@Test(priority = 1, groups = { "sanity",
 			"regression" }, description = "test case to see beauty page is successfully load or not")
@@ -34,7 +34,19 @@ public class EndToEnd extends BaseClass {
 		Assert.assertTrue(actualurl.contains("https://www.myntra.com/personal-care"));
 
 	}
-
+@Test(priority = 2, groups = { "sanity",
+			"regression" }, description = "test case to see beauty page is successfully load or not by direct navigation")
+	 public void testBeautyPageDirectNavigation() {	
+		 KeyWord.driver.get(ConfigReader.get("beauty.url"));
+		 BeautyPage beauty = new BeautyPage();
+		 String actualurl = beauty.getcurrentUrl();
+		 Assert.assertTrue(actualurl.contains("https://www.myntra.com/personal-care"));
+		 
+		 
+	 }
+	
+	
+	
 	@Test(priority = 2, dataProvider = "searchData", dataProviderClass = MyntraSearchTest.class)
 	public void verifySearchValidProducts(String product) {
 
