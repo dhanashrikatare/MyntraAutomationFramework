@@ -20,8 +20,8 @@ import com.myntra.utils.WaitFor;
 import com.myntra.dataprovider.*;
 
 public class EndToEnd extends BaseClass {
-
-	BeautyPage beauty = new BeautyPage();
+	 BeautyPage beauty = new BeautyPage();
+	
 
 	@Test(priority = 1, groups = { "sanity",
 			"regression" }, description = "test case to see beauty page is successfully load or not")
@@ -34,7 +34,19 @@ public class EndToEnd extends BaseClass {
 		Assert.assertTrue(actualurl.contains("https://www.myntra.com/personal-care"));
 
 	}
-
+@Test(priority = 2, groups = { "sanity",
+			"regression" }, description = "test case to see beauty page is successfully load or not by direct navigation")
+	 public void testBeautyPageDirectNavigation() {	
+		 KeyWord.driver.get(ConfigReader.get("beauty.url"));
+		 BeautyPage beauty = new BeautyPage();
+		 String actualurl = beauty.getcurrentUrl();
+		 Assert.assertTrue(actualurl.contains("https://www.myntra.com/personal-care"));
+		 
+		 
+	 }
+	
+	
+	
 	@Test(priority = 2, dataProvider = "searchData", dataProviderClass = MyntraSearchTest.class)
 	public void verifySearchValidProducts(String product) {
 
@@ -79,6 +91,9 @@ public class EndToEnd extends BaseClass {
 		search.enterPressOnSearchBar();
 
 	}
+	
+	
+
 
 	@Test(dataProvider = "searchData", dataProviderClass = MyntraSearchTest.class)
 	public void verifyValidProductIsgettingSearchAndProductDetailPageOpens(String product) {
@@ -280,6 +295,7 @@ public class EndToEnd extends BaseClass {
 		}
 	}
 
+	@Test
 	public void verifySortingByPriceHighToLow() throws InterruptedException {
 		SearchResultPage search = new SearchResultPage();
 		ProductListingPage plp = new ProductListingPage();
@@ -312,8 +328,36 @@ public class EndToEnd extends BaseClass {
 		Assert.assertEquals(productCount, 0, "Expected no products, but found: " + productCount);
 	}
 	
+	/** Test case to verify that when user tries to see orders list without login then it should redirect to login page
+	 * 1. Click on profile icon
+	 * 2. Click on my orders
+	 * 3. Verify that user is redirected to login page
+	 */
 	
+	@Test
+	public void verifyToSeeOrdersListWithoutLogin() {
+		//3KeyWord.driver.get(ConfigReader.get("base.url"));
+		HomePage home = new HomePage();
+		home.clickOnProfileIcon();
+		home.clickOnMyOrders();
+		
+		String Actualurl=KeyWord.driver.getCurrentUrl();
+		
+		Assert.assertTrue(Actualurl.contains("login"));
+		
+	}
+	/** Test case to verify that when user tries to see wishlist without login then it should redirect to login page*/
 	
+	@Test
+	public void verifyToSeeWishListWithoutLogin() {
+		HomePage home = new HomePage();
+		home.clickOnWishlistIcon();
+		
+		String Actualurl=KeyWord.driver.getCurrentUrl();
+		
+		Assert.assertTrue(Actualurl.contains("login"));
+		
+	}
 	
 	@Test
 	public void verifyTheSearchAndSelectedProductIsAddedToTheWishListWithoutLogin(){

@@ -25,7 +25,7 @@
       <span class="top-banner-title-font">Test results</span>
       <button id="button" class="button">Switch Retro Theme</button> <!-- button -->
       <br/>
-      <span class="top-banner-font-1">1 suite</span>
+      <span class="top-banner-font-1">1 suite, 1 failed test</span>
     </div> <!-- top-banner-root -->
     <div class="navigator-root">
       <div class="navigator-suite-header">
@@ -39,7 +39,7 @@
         <div class="rounded-window">
           <div class="suite-header light-rounded-window-top">
             <a href="#" panel-name="suite-Default_suite" class="navigator-link">
-              <span class="suite-name border-skipped">Default suite</span>
+              <span class="suite-name border-failed">Default suite</span>
             </a> <!-- navigator-link -->
           </div> <!-- suite-header light-rounded-window-top -->
           <div class="navigator-suite-content">
@@ -50,7 +50,7 @@
               <ul>
                 <li>
                   <a href="#" panel-name="test-xml-Default_suite" class="navigator-link ">
-                    <span>C:\Users\Hp\AppData\Local\Temp\testng-eclipse-795608136\testng-customsuite.xml</span>
+                    <span>C:\Users\Hp\AppData\Local\Temp\testng-eclipse-1693810892\testng-customsuite.xml</span>
                   </a> <!-- navigator-link  -->
                 </li>
                 <li>
@@ -92,21 +92,21 @@
               <div class="suite-section-content">
                 <ul>
                   <li>
-                    <span class="method-stats">1 method,  1 skipped,  </span>
+                    <span class="method-stats">1 method, 1 failed,   </span>
                   </li>
                   <li>
-                    <span class="method-list-title skipped">Skipped methods</span>
-                    <span class="show-or-hide-methods skipped">
-                      <a href="#" panel-name="suite-Default_suite" class="hide-methods skipped suite-Default_suite"> (hide)</a> <!-- hide-methods skipped suite-Default_suite -->
-                      <a href="#" panel-name="suite-Default_suite" class="show-methods skipped suite-Default_suite"> (show)</a> <!-- show-methods skipped suite-Default_suite -->
+                    <span class="method-list-title failed">Failed methods</span>
+                    <span class="show-or-hide-methods failed">
+                      <a href="#" panel-name="suite-Default_suite" class="hide-methods failed suite-Default_suite"> (hide)</a> <!-- hide-methods failed suite-Default_suite -->
+                      <a href="#" panel-name="suite-Default_suite" class="show-methods failed suite-Default_suite"> (show)</a> <!-- show-methods failed suite-Default_suite -->
                     </span>
-                    <div class="method-list-content skipped suite-Default_suite">
+                    <div class="method-list-content failed suite-Default_suite">
                       <span>
-                        <img src="skipped.png" width="3%"/>
-                        <a href="#" panel-name="suite-Default_suite" title="com.myntra.endtoend.tstcase.EndToEnd" class="method navigator-link" hash-for-method="verifyTheSearchAndSelectedProductwithBlankPinCodeField">verifyTheSearchAndSelectedProductwithBlankPinCodeField</a> <!-- method navigator-link -->
+                        <img src="failed.png" width="3%"/>
+                        <a href="#" panel-name="suite-Default_suite" title="com.myntra.endtoend.tstcase.EndToEnd" class="method navigator-link" hash-for-method="verifyToSeeWishListWithoutLogin">verifyToSeeWishListWithoutLogin</a> <!-- method navigator-link -->
                       </span>
                       <br/>
-                    </div> <!-- method-list-content skipped suite-Default_suite -->
+                    </div> <!-- method-list-content failed suite-Default_suite -->
                   </li>
                 </ul>
               </div> <!-- suite-section-content -->
@@ -118,26 +118,26 @@
     <div class="wrapper">
       <div class="main-panel-root">
         <div panel-name="suite-Default_suite" class="panel Default_suite">
-          <div class="suite-Default_suite-class-skipped">
+          <div class="suite-Default_suite-class-failed">
             <div class="main-panel-header rounded-window-top">
-              <img src="skipped.png"/>
+              <img src="failed.png"/>
               <span class="class-name">com.myntra.endtoend.tstcase.EndToEnd</span>
             </div> <!-- main-panel-header rounded-window-top -->
             <div class="main-panel-content rounded-window-bottom">
               <div class="method">
                 <div class="method-content">
-                  <a name="verifyTheSearchAndSelectedProductwithBlankPinCodeField">
-                  </a> <!-- verifyTheSearchAndSelectedProductwithBlankPinCodeField -->
-                  <span class="method-name">verifyTheSearchAndSelectedProductwithBlankPinCodeField</span>
-                  <div class="stack-trace">org.openqa.selenium.WebDriverException: target frame detached
-  (failed to check if window was closed: disconnected: Unable to receive message from renderer)
-  (Session info: chrome=146.0.7680.178)
+                  <a name="verifyToSeeWishListWithoutLogin">
+                  </a> <!-- verifyToSeeWishListWithoutLogin -->
+                  <span class="method-name">verifyToSeeWishListWithoutLogin</span>
+                  <div class="stack-trace">org.openqa.selenium.ElementNotInteractableException: element not interactable: element has zero size
+  (Session info: chrome=147.0.7727.56)
 Build info: version: &apos;4.34.0&apos;, revision: &apos;707dcb4246*&apos;
 System info: os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;21.0.7&apos;
 Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [f0a87dde57faf6b03c01a3a8bebab12a, get {url=https://www.myntra.com}]
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 146.0.7680.178, chrome: {chromedriverVersion: 146.0.7680.165 (4b989da09e1..., userDataDir: C:\Users\Hp\AppData\Local\T...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:59046}, goog:processID: 16620, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:59046/devtoo..., se:cdpVersion: 146.0.7680.178, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Session ID: f0a87dde57faf6b03c01a3a8bebab12a
+Command: [d228800df61eed1dc24214413b24f7f2, clickElement {id=f.C8FA24C7462BCC8B0191D3B8F70A38D1.d.F7206EBF8CE7F476B3D1729D7263AC80.e.29}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 147.0.7727.56, chrome: {chromedriverVersion: 147.0.7727.56 (b28eac7a1a97..., userDataDir: C:\Users\Hp\AppData\Local\T...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:55087}, goog:processID: 30184, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:55087/devtoo..., se:cdpVersion: 147.0.7727.56, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Element: [[ChromeDriver: chrome on windows (d228800df61eed1dc24214413b24f7f2)] -&gt; xpath: //a[@class=&quot;desktop-wishlist&quot;]]
+Session ID: d228800df61eed1dc24214413b24f7f2
 	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
 	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
 	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:486)
@@ -148,17 +148,18 @@ Session ID: f0a87dde57faf6b03c01a3a8bebab12a
 	at org.openqa.selenium.remote.service.DriverCommandExecutor.invokeExecute(DriverCommandExecutor.java:216)
 	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:174)
 	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:544)
-	at org.openqa.selenium.remote.RemoteWebDriver.get(RemoteWebDriver.java:312)
-	at com.myntra.basetest.KeyWord.openUrl(KeyWord.java:62)
-	at com.myntra.basetest.BaseClass.setUp(BaseClass.java:28)
+	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:223)
+	at org.openqa.selenium.remote.RemoteWebElement.click(RemoteWebElement.java:76)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.openqa.selenium.support.pagefactory.internal.LocatingElementHandler.invoke(LocatingElementHandler.java:51)
+	at jdk.proxy2/jdk.proxy2.$Proxy11.click(Unknown Source)
+	at com.myntra.pages.HomePage.clickOnWishlistIcon(HomePage.java:77)
+	at com.myntra.endtoend.tstcase.EndToEnd.verifyToSeeWishListWithoutLogin(EndToEnd.java:354)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:141)
-	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethodConsideringTimeout(MethodInvocationHelper.java:71)
-	at org.testng.internal.invokers.ConfigInvoker.invokeConfigurationMethod(ConfigInvoker.java:400)
-	at org.testng.internal.invokers.ConfigInvoker.invokeConfigurations(ConfigInvoker.java:333)
-	at org.testng.internal.invokers.TestInvoker.runConfigMethods(TestInvoker.java:833)
-	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:600)
+	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:686)
 	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:230)
 	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:63)
 	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:992)
@@ -186,11 +187,11 @@ Session ID: f0a87dde57faf6b03c01a3a8bebab12a
                 </div> <!-- method-content -->
               </div> <!-- method -->
             </div> <!-- main-panel-content rounded-window-bottom -->
-          </div> <!-- suite-Default_suite-class-skipped -->
+          </div> <!-- suite-Default_suite-class-failed -->
         </div> <!-- panel Default_suite -->
         <div panel-name="test-xml-Default_suite" class="panel">
           <div class="main-panel-header rounded-window-top">
-            <span class="header-content">C:\Users\Hp\AppData\Local\Temp\testng-eclipse-795608136\testng-customsuite.xml</span>
+            <span class="header-content">C:\Users\Hp\AppData\Local\Temp\testng-eclipse-1693810892\testng-customsuite.xml</span>
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <pre>
@@ -201,7 +202,7 @@ Session ID: f0a87dde57faf6b03c01a3a8bebab12a
     &lt;classes&gt;
       &lt;class name=&quot;com.myntra.endtoend.tstcase.EndToEnd&quot;&gt;
         &lt;methods&gt;
-          &lt;include name=&quot;verifyTheSearchAndSelectedProductwithBlankPinCodeField&quot;/&gt;
+          &lt;include name=&quot;verifyToSeeWishListWithoutLogin&quot;/&gt;
         &lt;/methods&gt;
       &lt;/class&gt; &lt;!-- com.myntra.endtoend.tstcase.EndToEnd --&gt;
     &lt;/classes&gt;
@@ -245,14 +246,14 @@ data.addColumn('string', 'Class');
 data.addColumn('number', 'Time (ms)');
 data.addRows(1);
 data.setCell(0, 0, 0)
-data.setCell(0, 1, 'verifyTheSearchAndSelectedProductwithBlankPinCodeField')
+data.setCell(0, 1, 'verifyToSeeWishListWithoutLogin')
 data.setCell(0, 2, 'com.myntra.endtoend.tstcase.EndToEnd')
-data.setCell(0, 3, 68);
+data.setCell(0, 3, 1641);
 window.suiteTableData['Default_suite']= { tableData: data, tableDiv: 'times-div-Default_suite'}
 return data;
 }
               </script>
-              <span class="suite-total-time">Total running time: 68 ms</span>
+              <span class="suite-total-time">Total running time: 1 seconds</span>
               <div id="times-div-Default_suite">
               </div> <!-- times-div-Default_suite -->
             </div> <!-- times-div -->
@@ -267,39 +268,47 @@ return data;
         </div> <!-- panel -->
         <div panel-name="ignored-methods-Default_suite" class="panel">
           <div class="main-panel-header rounded-window-top">
-            <span class="header-content">15 ignored methods</span>
+            <span class="header-content">19 ignored methods</span>
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <div class="ignored-class-div">
               <span class="ignored-class-name">com.myntra.endtoend.tstcase.EndToEnd</span>
               <div class="ignored-methods-div">
-                <span class="ignored-method-name">verifySearchInvalidProductsWithSpecialChar</span>
-                <br/>
-                <span class="ignored-method-name">verifyTheSearchAndSelectedProductIsAddedToTheWishListWithoutLogin</span>
-                <br/>
-                <span class="ignored-method-name">verifyInvalidColourSearchReturnsNoProducts</span>
-                <br/>
-                <span class="ignored-method-name">verifyBeautyPageLoads</span>
-                <br/>
                 <span class="ignored-method-name">verifyValidColourFilterIsAppliedAndProductsDisplayedRelatedToThatColourOnly</span>
                 <br/>
-                <span class="ignored-method-name">verifySearchValidProducts</span>
+                <span class="ignored-method-name">verifySearchInvalidProductsWithSpecialChar</span>
                 <br/>
-                <span class="ignored-method-name">verifyLipstickProductsIsdisplayedOnproductListingPage</span>
+                <span class="ignored-method-name">verifyToSeeOrdersListWithoutLogin</span>
+                <br/>
+                <span class="ignored-method-name">verifySortingByoptionForTheProducts</span>
                 <br/>
                 <span class="ignored-method-name">verifyClearAllFiltersFunctionality</span>
+                <br/>
+                <span class="ignored-method-name">verifySortingByPriceHighToLow</span>
                 <br/>
                 <span class="ignored-method-name">verifySearchInvalidProductsWithBlankFields</span>
                 <br/>
                 <span class="ignored-method-name">verifyValidProductIsgettingSearchAndProductDetailPageOpens</span>
                 <br/>
-                <span class="ignored-method-name">verifyProductOnProductDetailsPageIsRelatedToTheProductSelectedOnProductListingPage</span>
+                <span class="ignored-method-name">verifySearchValidProducts</span>
+                <br/>
+                <span class="ignored-method-name">verifyTheSearchAndSelectedProductIsAddedToTheWishListWithoutLogin</span>
+                <br/>
+                <span class="ignored-method-name">verifyInvalidColourSearchReturnsNoProducts</span>
                 <br/>
                 <span class="ignored-method-name">verifyValidBrandFilterIsAppliedAndProductsDisplayedRelatedToThatBrandOnly</span>
                 <br/>
+                <span class="ignored-method-name">verifyLipstickProductsIsdisplayedOnproductListingPage</span>
+                <br/>
+                <span class="ignored-method-name">testBeautyPageDirectNavigation</span>
+                <br/>
                 <span class="ignored-method-name">verifySearchInvalidProducts</span>
                 <br/>
-                <span class="ignored-method-name">verifySortingByoptionForTheProducts</span>
+                <span class="ignored-method-name">verifyProductOnProductDetailsPageIsRelatedToTheProductSelectedOnProductListingPage</span>
+                <br/>
+                <span class="ignored-method-name">verifyTheSearchAndSelectedProductwithBlankPinCodeField</span>
+                <br/>
+                <span class="ignored-method-name">verifyBeautyPageLoads</span>
                 <br/>
                 <span class="ignored-method-name">verifyProductDetailsPageOpensWithCorrectProductInformation</span>
                 <br/>
@@ -315,11 +324,15 @@ return data;
             <div class="chronological-class">
               <div class="chronological-class-name">com.myntra.endtoend.tstcase.EndToEnd</div> <!-- chronological-class-name -->
               <div class="configuration-method before">
-                <img src="failed.png">
-                </img>
                 <span class="method-name">setUp</span>
                 <span class="method-start">0 ms</span>
               </div> <!-- configuration-method before -->
+              <div class="test-method">
+                <img src="failed.png">
+                </img>
+                <span class="method-name">verifyToSeeWishListWithoutLogin</span>
+                <span class="method-start">7851 ms</span>
+              </div> <!-- test-method -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->
       </div> <!-- main-panel-root -->

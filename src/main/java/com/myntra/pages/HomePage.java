@@ -21,6 +21,12 @@ public class HomePage {
 
 	@FindBy(xpath = "//a[@class=\"desktop-wishlist\"]")
 	WebElement wishlistIcon;
+	
+	@FindBy(xpath = "//span[text()='Profile']")
+	WebElement profileIcon;
+	
+	@FindBy(xpath = "(//a[@href=\"/my/orders\"])[2]")
+	WebElement myOrdersLink;
 
 	{
 		PageFactory.initElements(driver, this);
@@ -50,6 +56,27 @@ public class HomePage {
 		return driver.getCurrentUrl();
 				
 	}
+
+	public void clickOnProfileIcon() {
+		WaitFor.elementToBeClickaBle(profileIcon);
+		profileIcon.click();
+		
+		
+	}
+
+	public void clickOnMyOrders() {
+		// TODO Auto-generated method stub
+		WaitFor.elementToBeClickaBle(myOrdersLink);
+		myOrdersLink.click();
+		
+	}
+
+	public void clickOnWishlistIcon() {
+		// TODO Auto-generated method stub
+		WaitFor.elementToBeClickaBle(wishlistIcon);
+		wishlistIcon.click();
+	}
+	
 	
 	
 	
