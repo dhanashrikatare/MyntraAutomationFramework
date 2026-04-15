@@ -49,7 +49,8 @@ public class EndToEnd extends BaseClass {
 	
 	
 	
-	@Test(priority = 2, dataProvider = "searchData", dataProviderClass = MyntraSearchTest.class)
+	@Test(priority = 2, dataProvider = "searchData", dataProviderClass = MyntraSearchTest.class,
+			description = "test case to verify search functionality with valid products")
 	public void verifySearchValidProducts(String product) {
 
 		SearchResultPage search = new SearchResultPage();
@@ -61,7 +62,8 @@ public class EndToEnd extends BaseClass {
 
 	}
 
-	@Test
+	@Test(priority = 3, groups = { "sanity",
+			"regression" }, description = "test case to verify search functionality with invalid products")
 	public void verifySearchInvalidProducts() {
 		SearchResultPage search = new SearchResultPage();
 		search.clickOnSearchResultsHeader();
@@ -72,7 +74,8 @@ public class EndToEnd extends BaseClass {
 
 	}
 
-	@Test
+	@Test(priority = 4, groups = { "sanity",
+			"regression" }, description = "test case to verify search functionality with invalid products with special characters")
 	public void verifySearchInvalidProductsWithSpecialChar() {
 
 		SearchResultPage search = new SearchResultPage();
@@ -85,7 +88,8 @@ public class EndToEnd extends BaseClass {
 
 	}
 
-	@Test
+	@Test(priority = 5, groups = { "sanity",
+			"regression" }, description = "test case to verify search functionality with invalid products with blank fields")
 	public void verifySearchInvalidProductsWithBlankFields() {
 		SearchResultPage search = new SearchResultPage();
 		search.clickOnSearchResultsHeader();
@@ -97,7 +101,7 @@ public class EndToEnd extends BaseClass {
 	
 
 
-	@Test(dataProvider = "searchData", dataProviderClass = MyntraSearchTest.class)
+	@Test(dataProvider = "searchData", dataProviderClass = MyntraSearchTest.class, description = "test case to verify that when user search for valid product then product listing page opens and when user click on any product then product details page opens with correct product information")
 	public void verifyValidProductIsgettingSearchAndProductDetailPageOpens(String product) {
 		SearchResultPage search = new SearchResultPage();
 		ProductListingPage plp = new ProductListingPage();
@@ -120,7 +124,9 @@ public class EndToEnd extends BaseClass {
 
 	}
 
-	@Test
+	@Test(priority = 6, groups = { "sanity",
+			"regression" }, 
+			description = "test case to verify that when user search for lipsticks then product listing page opens with lipstick products only")
 	public void verifyLipstickProductsIsdisplayedOnproductListingPage() {
 		SearchResultPage search = new SearchResultPage();
 		search.clickOnSearchResultsHeader();
@@ -131,14 +137,16 @@ public class EndToEnd extends BaseClass {
 		ProductListingPage plp = new ProductListingPage();
 		int product_count = plp.getProductCount();
 		System.out.println("lipsticks product count on first page:" + product_count);
+		
+		Assert.assertTrue(product_count > 0 && product_count <= 50, "Expected product count between 1 and 50, but found: " + product_count);
+		
 
-		Assert.assertTrue(product_count > 0);
-
-		plp.getAllProductsBrands();
+		
 
 	}
 
-	@Test(dataProvider = "brandData", dataProviderClass = LipstickDataProvider.class)
+	@Test(dataProvider = "brandData", dataProviderClass = LipstickDataProvider.class,
+			description = "test case to verify that when user apply brand filter on product listing page then products related to that brand only displayed")
 	public void verifyValidBrandFilterIsAppliedAndProductsDisplayedRelatedToThatBrandOnly(String brandName)
 			throws InterruptedException {
 		KeyWord.driver.get(ConfigReader.get("base.url"));

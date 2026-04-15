@@ -261,4 +261,14 @@ public class ProductListingPage {
 		return null;
 	}
 
+	public boolean areAllProductsRelatedToLipsticks() {
+		for(WebElement product:productCard) {
+			String productText=product.getText().toLowerCase();
+			if(!productText.contains("lipstick")) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 }
