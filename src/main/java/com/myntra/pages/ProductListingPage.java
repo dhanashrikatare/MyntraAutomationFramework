@@ -15,8 +15,8 @@ import com.myntra.utils.WaitFor;
 
 public class ProductListingPage {
 
-	@FindBy(css = ".product-base")
-	List<WebElement> productCards;
+	@FindBy(xpath = "//li[@class=\"product-base\"]")
+	List<WebElement> productCard;
 
 	@FindBy(xpath = "//ul[@class=\"FilterDirectory-list\"]/li")
 	List<WebElement> brandNames;
@@ -26,7 +26,6 @@ public class ProductListingPage {
 
 	@FindBy(css = ".sort-sortBy, .sort-label")
 	WebElement sortButton;
-	
 
 	@FindBy(css = ".sort-list li")
 	List<WebElement> sortOptions;
@@ -76,7 +75,6 @@ public class ProductListingPage {
 	By boys_filter = By.xpath("//label[contains(text(),'Boys')]");
 	By girls_filter = By.xpath("//label[contains(text(),'Girls')]");
 
-
 	{
 		PageFactory.initElements(KeyWord.driver, this);
 	}
@@ -93,14 +91,18 @@ public class ProductListingPage {
 	}
 
 	public void clickProduct(int index) {
-	//	KeyWord.waitForSeconds(3000);
+		// KeyWord.waitForSeconds(3000);
 		// Step 1: Get product name from product list
+//
+		By productCardBy = By.xpath("//li[@class=\"product-base\"]");
+//		WaitFor.untilElementGotStale(productCardBy);
+//		// Step 2: Click product
+//		List<WebElement> products = KeyWord.driver.findElements(productCardBy);
+//		WaitFor.visibilityOfelement(productCardBy);
 
-		// Step 2: Click product
-		WaitFor.visibilityOfAll(productCards);
-		
-		KeyWord.clickOn(productCards.get(index));
-		//KeyWord.waitForSeconds(2000);
+		List<WebElement> products = WaitFor.visibilityOfAll(productCardBy);
+		products.get(index).click();
+		// KeyWord.waitForSeconds(2000);
 
 	}
 
@@ -110,7 +112,7 @@ public class ProductListingPage {
 
 	public String getProductText(int index) {
 
-		return productCards.get(index).getText();
+		return productCard.get(index).getText();
 	}
 
 	/** opens the dropdown and select by entering text **/
@@ -128,20 +130,21 @@ public class ProductListingPage {
 		throw new RuntimeException("Sort option not found: " + optionText);
 
 	}
+
 	// Apply Boys filter
-		public void selectBoysFilter() {
+	public void selectBoysFilter() {
 
-			getElement(boys_filter).click();
+		getElement(boys_filter).click();
 
-		}
+	}
 
-		// Apply Girls filter
-		public void selectGirlsFilter() {
-			getElement(girls_filter).click();
-		}
+	// Apply Girls filter
+	public void selectGirlsFilter() {
+		getElement(girls_filter).click();
+	}
 
 	public void filterByProductColour(String colour) {
-		
+
 		KeyWord.scrollToElement();
 		WaitFor.visibilityOfelement(colourSearchBar);
 		WaitFor.elementToBeClickaBle(colourSearchBar);
@@ -152,7 +155,6 @@ public class ProductListingPage {
 		WaitFor.visibilityOfelement(colourOption);
 		WaitFor.elementToBeClickaBle(colourOption);
 		KeyWord.clickOn(colourOption);
-		
 
 	}
 
@@ -180,7 +182,7 @@ public class ProductListingPage {
 		// common-customCheckbox\"]");
 		WaitFor.visibilityOfelement(brandOption);
 		WaitFor.elementToBeClickaBle(brandOption);
-		
+
 		KeyWord.clickOn(brandOption);
 	}
 
@@ -238,7 +240,7 @@ public class ProductListingPage {
 	}
 
 	public int getProductCount() {
-		return productCards.size();
+		return productCard.size();
 	}
 
 	public void clearAllFilters() {

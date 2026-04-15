@@ -1,6 +1,7 @@
 package com.myntra.pages;
 
 import java.util.List;
+import java.util.Random;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -54,6 +55,15 @@ public class ProductDetails {
 	
 	@FindBy(xpath="//div[@class=\"breadcrumbs-container\"]")
 	WebElement breadcrumb;
+	
+	@FindBy(xpath="//button[@class=\"pincode-check-another-pincode pincode-button\"]")
+	WebElement ChangePincodeButton;
+	
+	@FindBy(xpath="(//h4[@class=\"pincode-serviceabilityTitle\"])[1]")
+	WebElement deliveryAvailableMsg;
+	
+	@FindBy(xpath="//p[@class=\"pincode-error pincode-enterPincode\"]")
+	WebElement invalidPinMessage ;
 
 	{
 		PageFactory.initElements(KeyWord.driver, this);
@@ -69,6 +79,12 @@ public class ProductDetails {
 		
 	}
 	
+	public void enterPincode(String pincode) {
+		WaitFor.visibilityOfelement(Pincode);
+		Pincode.clear();
+		KeyWord.type(Pincode, pincode);
+	}
+	
 	public boolean isBreadcrumbVisible() {
 		return KeyWord.isDisplayed(breadcrumb);
 	}
@@ -80,15 +96,51 @@ public class ProductDetails {
 		return KeyWord.getText(breadcrumb);
 	}
 	
-	public void clickOnPincodeAndCheckField() {
-
+	
+	
+	public void clickOnPincodeButton() {
 		WaitFor.visibilityOfelement(Pincode);
 		WaitFor.elementToBeClickaBle(Pincode);
 		
 		KeyWord.clickOn(Pincode);
+		
+	}
+	
+	public void clickOnPincodeCheckField() {
+
+//		WaitFor.visibilityOfelement(Pincode);
+//		WaitFor.elementToBeClickaBle(Pincode);
+//		
+//		KeyWord.clickOn(Pincode);
+//		
+		WaitFor.visibilityOfelement(checkField);
+		WaitFor.elementToBeClickaBle(checkField);
 		KeyWord.clickOn(checkField);
 		
 	}
+	
+	public void clickOnChangePincodeButton() {
+		WaitFor.visibilityOfelement(ChangePincodeButton);
+		WaitFor.elementToBeClickaBle(ChangePincodeButton);
+		KeyWord.clickOn(ChangePincodeButton);
+		
+	}
+	
+	public String getDeliveryAvailableMessage() {
+		return KeyWord.getText(deliveryAvailableMsg);
+	}
+	
+	public boolean isDeliveryAvailable() {
+		try {
+			return deliveryAvailableMsg.isDisplayed();
+		}
+		catch(Exception e) {
+			return false;
+		}
+		
+	}
+	
+	
 	
 	
 	public boolean isWishListButtonIsPresent() {
@@ -102,6 +154,9 @@ public class ProductDetails {
 		
 		
 	}
+	
+	
+	
 	
 	public boolean isaddtobagbuttonvisible() {
 		return KeyWord.isDisplayed(addToBagButton)
@@ -134,6 +189,21 @@ public class ProductDetails {
 	public String getSellingPrice() {
 		return KeyWord.getText(sellingPrice);
 
+	}
+	
+	public String generateRandomPin() {
+	    Random rand = new Random();
+	    int pin = 100000 + rand.nextInt(900000);
+	    return String.valueOf(pin);
+	}
+	
+	public boolean isInvalidPinMessageDisplayed() {
+		try {
+			return invalidPinMessage.isDisplayed();
+		}
+		catch(Exception e) {
+			return false;
+		}
 	}
 
 	public String getOriginalPrice() {
@@ -185,6 +255,12 @@ public class ProductDetails {
 	
 	public String getPageSource() {
 		return KeyWord.getPageSource();
+	}
+
+	public void clickChangeButton() {
+		WaitFor.visibilityOfelement(ChangePincodeButton);
+		KeyWord.clickOn(ChangePincodeButton);
+		
 	}
 
 }
