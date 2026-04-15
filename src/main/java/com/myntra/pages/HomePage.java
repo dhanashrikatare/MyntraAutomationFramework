@@ -19,7 +19,7 @@ public class HomePage {
 	@FindBy(xpath = "//a[@data-group=\"beauty\"]")
 	WebElement beautyMenuLink;
 
-	@FindBy(xpath = "//a[@class=\"desktop-wishlist\"]")
+	@FindBy(xpath = "//span[text()=\"Wishlist\"]")
 	WebElement wishlistIcon;
 	
 	@FindBy(xpath = "//span[text()='Profile']")
@@ -51,6 +51,7 @@ public class HomePage {
 		beautyMenuLink.click();
 	}
 
+	
 	public String getCurrentUrl() {
 		// TODO Auto-generated method stub
 		return driver.getCurrentUrl();

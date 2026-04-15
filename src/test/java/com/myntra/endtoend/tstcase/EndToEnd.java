@@ -1,5 +1,6 @@
 package com.myntra.endtoend.tstcase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.Assert;
@@ -11,6 +12,7 @@ import com.myntra.basetest.KeyWord;
 import com.myntra.pages.AddToCartPage;
 import com.myntra.pages.BeautyPage;
 import com.myntra.pages.HomePage;
+import com.myntra.pages.LoginPage;
 import com.myntra.pages.ProductDetails;
 import com.myntra.pages.ProductListingPage;
 import com.myntra.pages.SearchResultPage;
@@ -136,7 +138,7 @@ public class EndToEnd extends BaseClass {
 
 	}
 
-	@Test(dataProvider = "brandData", dataProviderClass = ExcelReader.class)
+	@Test(dataProvider = "brandData", dataProviderClass = LipstickDataProvider.class)
 	public void verifyValidBrandFilterIsAppliedAndProductsDisplayedRelatedToThatBrandOnly(String brandName)
 			throws InterruptedException {
 		KeyWord.driver.get(ConfigReader.get("base.url"));
@@ -188,18 +190,7 @@ public class EndToEnd extends BaseClass {
 
 	}
 
-	public void verifyValidGenderFilterIsAppliedAndProductsDisplayedRelatedToThatGenderOnly()
-			throws InterruptedException {
-		SearchResultPage search = new SearchResultPage();
-		search.clickOnSearchResultsHeader();
-		search.enterTextOnSearchBar("lipsticks");
-		search.enterPressOnSearchBar();
-
-		ProductListingPage plp = new ProductListingPage();
-		plp.filterByGender(null);
-
-	}
-
+	
 	@Test
 	public void verifyClearAllFiltersFunctionality() throws InterruptedException {
 		SearchResultPage search = new SearchResultPage();
@@ -353,11 +344,12 @@ public class EndToEnd extends BaseClass {
 		HomePage home = new HomePage();
 		home.clickOnWishlistIcon();
 		
-		String Actualurl=KeyWord.driver.getCurrentUrl();
 		
-		Assert.assertTrue(Actualurl.contains("login"));
+	    LoginPage login = new LoginPage();
+		Assert.assertTrue(login.isLoginPopUpDisplayed(), "Login pop-up is not displayed when trying to access the wishlist without logging in.");
 		
 	}
+	/** Test case to verify that when user tries to add product to wishlist without login then it should redirect to login page*/
 	
 	@Test
 	public void verifyTheSearchAndSelectedProductIsAddedToTheWishListWithoutLogin(){
@@ -392,6 +384,9 @@ public class EndToEnd extends BaseClass {
 		
 	}
 	
+	/** Test case to verify that when user tries to add product to cart and check delivery availability with blank pincode field 
+	 * then it should show error message*/
+	
 	@Test
 	public void verifyTheSearchAndSelectedProductwithBlankPinCodeField() {
 		
@@ -409,7 +404,7 @@ public class EndToEnd extends BaseClass {
 
 		page.filterByDiscountRange("30% and above");
 
-		page.clickProduct(1);
+		page.clickProduct(2);
 		KeyWord.switchToNewTab();
 
 		ProductDetails pdp = new ProductDetails();
@@ -420,7 +415,7 @@ public class EndToEnd extends BaseClass {
 		AddToCartPage cart=new AddToCartPage();
 		cart.clickOnPincodeButton();
 		
-		cart.clickOnPincodeAndCheckField();
+		//cart.clickOnPincodeAndCheckField();
 		
 		String ActualMsg=cart.getErrorMsg();
 		System.out.println(ActualMsg);
@@ -430,8 +425,145 @@ public class EndToEnd extends BaseClass {
 		
 		
 	}
+	@Test(dataProvider = "pincodeData", dataProviderClass = LipstickDataProvider.class)
+	public void verifyTheSearchAndSelectedProductwithvalidPinCode(String pincode) {
+		KeyWord.driver.get(ConfigReader.get("base.url"));
+		
+		SearchResultPage search = new SearchResultPage();
+		search.clickOnSearchResultsHeader();
+		search.enterTextOnSearchBar("Lipstick");
+		search.enterPressOnSearchBar();
+
+		ProductListingPage page = new ProductListingPage();
+//		page.filterByGender("Women");
+//		page.filterByBrand("Lakme");
+//		page.sortBy("popularity");
+//		page.filterByColour("Pink");
+//
+//		page.filterByDiscountRange("30% and above");
+		page.clickProduct(2);
+		KeyWord.switchToNewTab();
+		ProductDetails pdp = new ProductDetails();
+		pdp.clickOnPincodeButton();
+		pdp.enterPincode(pincode);
+		pdp.clickOnPincodeCheckField();
+		String deliveryMsg=pdp.getDeliveryAvailableMessage();
+		System.out.println(deliveryMsg);
+		Assert.assertTrue(deliveryMsg.contains("Get it by"), "Expected delivery available message not shown for valid pincode: " + pincode);
+
+	}
 	
+	@Test
+	public void toVerifyselectedProductIsAvailableForDeliveryWithDifferentPinCodes() {
+		
+		SearchResultPage search = new SearchResultPage();
+		search.clickOnSearchResultsHeader();
+		search.enterTextOnSearchBar("Lipstick");
+		search.enterPressOnSearchBar();
+
+		ProductListingPage page = new ProductListingPage();
+		page.filterByGender("Women");
+		page.filterByBrand("Lakme");
+		page.sortBy("popularity");
+		page.filterByColour("Pink");
+
+		page.filterByDiscountRange("30% and above");
+
+		page.clickProduct(2);
+		KeyWord.switchToNewTab();
+		
+		ProductDetails pdp = new ProductDetails();
+		pdp.clickOnPincodeButton();
 	
+		List<String> InvalidpinCodes = new ArrayList();
+		boolean isdeliveryAvailable=false;
+		int maxAttempts = 10; // Maximum number of attempts to find an invalid pincode
+		for (int i = 0; i < maxAttempts; i++) {
+		    String randomPin = pdp.generateRandomPin();
+		    pdp.enterPincode(randomPin);
+		    pdp.clickOnPincodeCheckField();
+		    isdeliveryAvailable = pdp.isDeliveryAvailable();
+		    if (pdp.isInvalidPinMessageDisplayed()) {
+		        InvalidpinCodes.add(randomPin);
+		        System.out.println("Invalid pincode found: " + randomPin);
+		        Assert.assertTrue(pdp.isInvalidPinMessageDisplayed(),
+		                "Invalid message not shown");
+
+		            // Click Change button
+		            pdp.clickChangeButton();
+
+		    } else {
+		    	String deliveryMsg=pdp.getDeliveryAvailableMessage();
+		        System.out.println("Valid pincode found (skipping): " + randomPin);
+		        System.out.println("Delivery available message: " + deliveryMsg);
+		        Assert.assertTrue(deliveryMsg.contains("Get it by"), "Expected delivery available message not shown for valid pincode: " + randomPin);
+		        isdeliveryAvailable=true;
+		        break; // Exit the loop if a valid pincode is found
+		    }
+		}
+		
+		Assert.assertTrue(isdeliveryAvailable, "No valid pincode found after " + maxAttempts + " attempts. Invalid pincodes tested: " + InvalidpinCodes);
 	
+	}	
+	
+	@Test
+	public void verifyThatSelectedProductIsRemoveFromTheCartAfterAddingToTheCart() {
+
+		SearchResultPage search = new SearchResultPage();
+		search.clickOnSearchResultsHeader();
+		search.enterTextOnSearchBar("Lipstick");
+		search.enterPressOnSearchBar();
+
+		ProductListingPage page = new ProductListingPage();
+		page.filterByGender("Women");
+		page.filterByBrand("Lakme");
+		page.sortBy("popularity");
+		page.filterByColour("Pink");
+
+		page.filterByDiscountRange("30% and above");
+
+		page.clickProduct(2);
+		KeyWord.switchToNewTab();
+		ProductDetails pdp = new ProductDetails();
+		pdp.clickaddToBagProduct();
+		pdp.clickGoToBag();
+		AddToCartPage cart=new AddToCartPage();
+		cart.clickOnRemoveBtn();
+		if(cart.isRemovePopUpDisplayed()) {
+			cart.clickOnRemovePopUpBtn();;
+		}
+		System.out.println("successfully remove from the bag");
+		String RemoveItemMsg=cart.getItemRemoveMsg();
+		
+		Assert.assertTrue(RemoveItemMsg.contains("item removed"), "Expected item removed message not shown after removing product from cart. Actual message: " + RemoveItemMsg);
+		
+		
+		
+		
+	}
+	
+	@Test
+	public void verifyPlaceOrderWithoutLogin() {
+		SearchResultPage search = new SearchResultPage();
+		search.clickOnSearchResultsHeader();
+		search.enterTextOnSearchBar("Lipstick");
+		search.enterPressOnSearchBar();
+
+		ProductListingPage page = new ProductListingPage();
+		page.clickProduct(2);
+		KeyWord.switchToNewTab();
+		ProductDetails pdp = new ProductDetails();
+		pdp.clickaddToBagProduct();
+		pdp.clickGoToBag();
+		AddToCartPage cart=new AddToCartPage();
+		if(cart.isPlaceOrderBtnDisplayed()) {
+			cart.clickOnPlaceOrderBtn();
+			String Actualurl=KeyWord.driver.getCurrentUrl();
+			Assert.assertTrue(Actualurl.contains("login"), "Expected to be redirected to login page when trying to place order without logging in. Actual URL: " + Actualurl);
+		}
+		else {
+			Assert.fail("Place Order button is not displayed on the cart page, cannot proceed with the test.");
+		}
+	}
 
 }

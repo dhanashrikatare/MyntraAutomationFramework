@@ -5,7 +5,7 @@
     <classes>
       <class name="com.myntra.endtoend.tstcase.EndToEnd">
         <methods>
-          <include name="verifyToSeeWishListWithoutLogin"/>
+          <include name="verifyPlaceOrderWithoutLogin"/>
           <include name="setUp"/>
         </methods>
       </class> <!-- com.myntra.endtoend.tstcase.EndToEnd -->
