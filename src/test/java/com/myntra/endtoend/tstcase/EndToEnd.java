@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.Assert;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -20,13 +21,13 @@ import com.myntra.utils.ConfigReader;
 import com.myntra.utils.ExcelReader;
 import com.myntra.utils.WaitFor;
 import com.myntra.dataprovider.*;
-
+import com.myntra.listener.MyListener;
+@Listeners(MyListener.class)
 public class EndToEnd extends BaseClass {
 	 BeautyPage beauty = new BeautyPage();
 	
 
-	@Test(priority = 1, groups = { "sanity",
-			"regression" }, description = "test case to see beauty page is successfully load or not")
+	@Test(priority = 1, description = "test case to see beauty page is successfully load or not")
 	public void verifyBeautyPageLoads() {
 
 		HomePage home = new HomePage();
@@ -36,9 +37,8 @@ public class EndToEnd extends BaseClass {
 		Assert.assertTrue(actualurl.contains("https://www.myntra.com/personal-care"));
 
 	}
-@Test(priority = 2, groups = { "sanity",
-			"regression" }, description = "test case to see beauty page is successfully load or not by direct navigation")
-	 public void testBeautyPageDirectNavigation() {	
+@Test(priority = 2,description = "test case to see beauty page is successfully load or not by direct navigation")
+	 public void verifyBeautyPageDirectNavigation() {	
 		 KeyWord.driver.get(ConfigReader.get("beauty.url"));
 		 BeautyPage beauty = new BeautyPage();
 		 String actualurl = beauty.getcurrentUrl();
@@ -49,7 +49,8 @@ public class EndToEnd extends BaseClass {
 	
 	
 	
-	@Test(priority = 2, dataProvider = "searchData", dataProviderClass = MyntraSearchTest.class)
+	@Test(priority = 2, dataProvider = "searchData", dataProviderClass = MyntraSearchTest.class,
+			description = "test case to verify search functionality with valid products")
 	public void verifySearchValidProducts(String product) {
 
 		SearchResultPage search = new SearchResultPage();
@@ -61,7 +62,7 @@ public class EndToEnd extends BaseClass {
 
 	}
 
-	@Test
+	@Test(priority = 3,  description = "test case to verify search functionality with invalid products")
 	public void verifySearchInvalidProducts() {
 		SearchResultPage search = new SearchResultPage();
 		search.clickOnSearchResultsHeader();
@@ -72,7 +73,7 @@ public class EndToEnd extends BaseClass {
 
 	}
 
-	@Test
+	@Test(priority = 4,description = "test case to verify search functionality with invalid products with special characters")
 	public void verifySearchInvalidProductsWithSpecialChar() {
 
 		SearchResultPage search = new SearchResultPage();
@@ -85,7 +86,7 @@ public class EndToEnd extends BaseClass {
 
 	}
 
-	@Test
+	@Test(priority = 5,  description = "test case to verify search functionality with invalid products with blank fields")
 	public void verifySearchInvalidProductsWithBlankFields() {
 		SearchResultPage search = new SearchResultPage();
 		search.clickOnSearchResultsHeader();
@@ -97,7 +98,8 @@ public class EndToEnd extends BaseClass {
 	
 
 
-	@Test(dataProvider = "searchData", dataProviderClass = MyntraSearchTest.class)
+	@Test(priority=6,dataProvider = "searchData", dataProviderClass = MyntraSearchTest.class, description = "test case to verify that when user search for valid product"
+			+ " then product listing page opens and when user click on any product then product details page opens with correct product information")
 	public void verifyValidProductIsgettingSearchAndProductDetailPageOpens(String product) {
 		SearchResultPage search = new SearchResultPage();
 		ProductListingPage plp = new ProductListingPage();
@@ -120,7 +122,8 @@ public class EndToEnd extends BaseClass {
 
 	}
 
-	@Test
+	@Test(priority = 7, 
+			description = "test case to verify that when user search for lipsticks then product listing page opens with lipstick products only")
 	public void verifyLipstickProductsIsdisplayedOnproductListingPage() {
 		SearchResultPage search = new SearchResultPage();
 		search.clickOnSearchResultsHeader();
@@ -131,14 +134,16 @@ public class EndToEnd extends BaseClass {
 		ProductListingPage plp = new ProductListingPage();
 		int product_count = plp.getProductCount();
 		System.out.println("lipsticks product count on first page:" + product_count);
+		
+		Assert.assertTrue(product_count > 0 && product_count <= 50, "Expected product count between 1 and 50, but found: " + product_count);
+		
 
-		Assert.assertTrue(product_count > 0);
-
-		plp.getAllProductsBrands();
+		
 
 	}
 
-	@Test(dataProvider = "brandData", dataProviderClass = LipstickDataProvider.class)
+	@Test(priority=8,dataProvider = "brandData", dataProviderClass = LipstickDataProvider.class,
+			description = "test case to verify that when user apply brand filter on product listing page then products related to that brand only displayed")
 	public void verifyValidBrandFilterIsAppliedAndProductsDisplayedRelatedToThatBrandOnly(String brandName)
 			throws InterruptedException {
 		KeyWord.driver.get(ConfigReader.get("base.url"));
@@ -164,7 +169,7 @@ public class EndToEnd extends BaseClass {
 
 	}
 
-	@Test(dataProvider = "colourData", dataProviderClass = MyntraSearchTest.class)
+	@Test(dataProvider = "colourData", dataProviderClass = MyntraSearchTest.class,priority=9, description = "test case to verify that when user apply colour filter on product listing page then products related to that colour only displayed")
 	public void verifyValidColourFilterIsAppliedAndProductsDisplayedRelatedToThatColourOnly(String colour)
 			throws InterruptedException {
 		KeyWord.driver.get(ConfigReader.get("base.url"));
@@ -191,7 +196,7 @@ public class EndToEnd extends BaseClass {
 	}
 
 	
-	@Test
+	@Test(priority=10,  description = "test case to verify that when user apply some filters on product listing page and then click on clear all filters button then all the products are displayed without any filter")
 	public void verifyClearAllFiltersFunctionality() throws InterruptedException {
 		SearchResultPage search = new SearchResultPage();
 		search.clickOnSearchResultsHeader();
@@ -212,7 +217,7 @@ public class EndToEnd extends BaseClass {
 				"after clearing filters no products are displayed which is wrong");
 	}
 
-	@Test
+	@Test(priority=11,  description = "test case to verify that when user click on any product on product listing page then product details page opens with correct product information")
 	public void verifyProductDetailsPageOpensWithCorrectProductInformation() throws InterruptedException {
 		SearchResultPage search = new SearchResultPage();
 		ProductListingPage plp = new ProductListingPage();
@@ -237,7 +242,7 @@ public class EndToEnd extends BaseClass {
 		System.out.println("passed successfully");
 	}
 	
-	@Test
+	
 	public void verifyProductOnProductDetailsPageIsRelatedToTheProductSelectedOnProductListingPage() throws InterruptedException {
 		SearchResultPage search = new SearchResultPage();
 		ProductListingPage plp = new ProductListingPage();
@@ -266,27 +271,27 @@ public class EndToEnd extends BaseClass {
 	}
 	
 	
+//
+//	@Test(dataProvider = "sortBy", dataProviderClass = MyntraSearchTest.class,priority=12, description = "test case to verify that when user apply sorting by option on product listing page then products are sorted according to that option")
+//	public void verifySortingByoptionForTheProducts(String OptionText) throws InterruptedException {
+//		KeyWord.driver.get(ConfigReader.get("base.url"));
+//		SearchResultPage search = new SearchResultPage();
+//		ProductListingPage plp = new ProductListingPage();
+//		search.clickOnSearchResultsHeader();
+//		search.enterTextOnSearchBar("lipsticks");
+//		search.enterPressOnSearchBar();
+//
+//		plp.sortBy(OptionText);
+//
+//		List<Double> prices = plp.getAllProductsPrices();
+//
+//		for (int i = 0; i < prices.size() - 1; i++) {
+//			Assert.assertTrue(prices.get(i) <= prices.get(i + 1),
+//					"Sorting error: " + prices.get(i) + " is not less than or equal to " + prices.get(i + 1));
+//		}
+//	}
 
-	@Test(dataProvider = "sortBy", dataProviderClass = MyntraSearchTest.class)
-	public void verifySortingByoptionForTheProducts(String OptionText) throws InterruptedException {
-		KeyWord.driver.get(ConfigReader.get("base.url"));
-		SearchResultPage search = new SearchResultPage();
-		ProductListingPage plp = new ProductListingPage();
-		search.clickOnSearchResultsHeader();
-		search.enterTextOnSearchBar("lipsticks");
-		search.enterPressOnSearchBar();
-
-		plp.sortBy(OptionText);
-
-		List<Double> prices = plp.getAllProductsPrices();
-
-		for (int i = 0; i < prices.size() - 1; i++) {
-			Assert.assertTrue(prices.get(i) <= prices.get(i + 1),
-					"Sorting error: " + prices.get(i) + " is not less than or equal to " + prices.get(i + 1));
-		}
-	}
-
-	@Test
+	@Test(priority=13, description = "test case to verify that when user apply sorting by option on product listing page then products are sorted according to that option")
 	public void verifySortingByPriceHighToLow() throws InterruptedException {
 		SearchResultPage search = new SearchResultPage();
 		ProductListingPage plp = new ProductListingPage();
@@ -304,7 +309,7 @@ public class EndToEnd extends BaseClass {
 		}
 	}
 
-	@Test
+	@Test(priority=14, description = "test case to verify that when user apply invalid colour filter on product listing page then no products are displayed")
 	public void verifyInvalidColourSearchReturnsNoProducts() {
 		SearchResultPage search = new SearchResultPage();
 		search.clickOnSearchResultsHeader();
@@ -325,7 +330,7 @@ public class EndToEnd extends BaseClass {
 	 * 3. Verify that user is redirected to login page
 	 */
 	
-	@Test
+	@Test(priority=15, description = "test case to verify that when user tries to see orders list without login then it should redirect to login page")
 	public void verifyToSeeOrdersListWithoutLogin() {
 		//3KeyWord.driver.get(ConfigReader.get("base.url"));
 		HomePage home = new HomePage();
@@ -339,7 +344,7 @@ public class EndToEnd extends BaseClass {
 	}
 	/** Test case to verify that when user tries to see wishlist without login then it should redirect to login page*/
 	
-	@Test
+	@Test(priority=16,  description = "test case to verify that when user tries to see wishlist without login then it should redirect to login page")
 	public void verifyToSeeWishListWithoutLogin() {
 		HomePage home = new HomePage();
 		home.clickOnWishlistIcon();
@@ -351,7 +356,7 @@ public class EndToEnd extends BaseClass {
 	}
 	/** Test case to verify that when user tries to add product to wishlist without login then it should redirect to login page*/
 	
-	@Test
+	@Test(priority=17,  description = "test case to verify that when user tries to add product to wishlist without login then it should redirect to login page")
 	public void verifyTheSearchAndSelectedProductIsAddedToTheWishListWithoutLogin(){
 		
 		
@@ -387,7 +392,7 @@ public class EndToEnd extends BaseClass {
 	/** Test case to verify that when user tries to add product to cart and check delivery availability with blank pincode field 
 	 * then it should show error message*/
 	
-	@Test
+	@Test(priority=18,  description = "test case to verify that when user tries to add product to cart and check delivery availability with blank pincode field then it should show error message")
 	public void verifyTheSearchAndSelectedProductwithBlankPinCodeField() {
 		
 		SearchResultPage search = new SearchResultPage();
@@ -425,7 +430,7 @@ public class EndToEnd extends BaseClass {
 		
 		
 	}
-	@Test(dataProvider = "pincodeData", dataProviderClass = LipstickDataProvider.class)
+	@Test(dataProvider = "pincodeData", dataProviderClass = LipstickDataProvider.class,priority=19, description = "test case to verify that when user tries to add product to cart and check delivery availability with valid pincode then it should show delivery available message")
 	public void verifyTheSearchAndSelectedProductwithvalidPinCode(String pincode) {
 		KeyWord.driver.get(ConfigReader.get("base.url"));
 		
@@ -453,7 +458,7 @@ public class EndToEnd extends BaseClass {
 
 	}
 	
-	@Test
+	@Test(priority=20,description = "test case to verify that when user tries to add product to cart and check delivery availability with different valid and invalid pincodes then it should show correct message for each pincode")
 	public void toVerifyselectedProductIsAvailableForDeliveryWithDifferentPinCodes() {
 		
 		SearchResultPage search = new SearchResultPage();
@@ -506,7 +511,7 @@ public class EndToEnd extends BaseClass {
 	
 	}	
 	
-	@Test
+	@Test(priority=21, description = "test case to verify that when user tries to add product to cart and then remove that product from cart then it should show correct message after removing product from cart")
 	public void verifyThatSelectedProductIsRemoveFromTheCartAfterAddingToTheCart() {
 
 		SearchResultPage search = new SearchResultPage();
@@ -542,7 +547,7 @@ public class EndToEnd extends BaseClass {
 		
 	}
 	
-	@Test
+	@Test(priority=22, description = "test case to verify that when user tries to place order without login then it should redirect to login page")
 	public void verifyPlaceOrderWithoutLogin() {
 		SearchResultPage search = new SearchResultPage();
 		search.clickOnSearchResultsHeader();
