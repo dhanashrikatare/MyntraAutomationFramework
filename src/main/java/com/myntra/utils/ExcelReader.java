@@ -26,11 +26,11 @@ public class ExcelReader {
 		int cols=sheet.getRow(0).getPhysicalNumberOfCells();
 		Object[][] data=new Object[rows-1][cols];
 		
-	   for(int i=0;i<rows;i++) {
+	   for(int i=1;i<rows;i++) {
 		   
 		   XSSFRow row=sheet.getRow(i);
 		   
-		   for(int j=1;j<cols;j++) {
+		   for(int j=0;j<cols;j++) {
 			   XSSFCell cell=row.getCell(j);
 			   
 			   switch (cell.getCellType()) {

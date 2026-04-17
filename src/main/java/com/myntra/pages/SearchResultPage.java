@@ -38,6 +38,8 @@ public class SearchResultPage {
 		KeyWord.typeAndEnter(searchResultsHeader, "");
 //		searchResultsHeader.sendKeys(Keys.ENTER);
 	}
-	
+
+
+
 
 }

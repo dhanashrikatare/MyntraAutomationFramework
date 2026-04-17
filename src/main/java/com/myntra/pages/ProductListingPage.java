@@ -78,6 +78,19 @@ public class ProductListingPage {
 	{
 		PageFactory.initElements(KeyWord.driver, this);
 	}
+	
+	public String getPlpTitle() {
+		return KeyWord.driver.getTitle();
+	}
+	
+	public String getPlpBreadCrumb() {
+		return breadCrumb.getText();
+	}
+	
+	public String getPlpUrl() {
+		return KeyWord.driver.getCurrentUrl();
+	}
+	
 
 	public boolean verifyMultipleBrands(List<String> brands) {
 		for (WebElement brand : brandNames) {
@@ -270,5 +283,18 @@ public class ProductListingPage {
 		}
 		return true;
 	}
+
+	public boolean isBrandFilterApplied(String string) {
+		 for (WebElement brand : productBrands) {
+	            String actualBrand = brand.getText().trim();
+	            if (!actualBrand.equalsIgnoreCase(string)) {
+	                return false; // Found a product that does not match the filter
+	            }
+	        }
+	        return true; // All products match the filter
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }
