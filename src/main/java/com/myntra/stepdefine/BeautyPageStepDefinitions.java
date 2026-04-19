@@ -1,11 +1,11 @@
 package com.myntra.stepdefine;
 
-import com.myntra.hooks.Hooks;
+
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 
-public class BeautyPageStepDefinitions extends Hooks {
+public class BeautyPageStepDefinitions  {
 	
 	@Given("user is on the home page")
 	public void homePageOpens() {
