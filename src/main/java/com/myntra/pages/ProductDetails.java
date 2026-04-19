@@ -110,6 +110,9 @@ public class ProductDetails {
 		return KeyWord.getText(breadcrumb);
 	}
 	
+	public String getPdpUrl() {
+		return KeyWord.driver.getCurrentUrl();
+	}
 	
 	
 	public void clickOnPincodeButton() {

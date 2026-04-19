@@ -78,6 +78,7 @@ public class ProductListingPage {
 
 	// By brands=By.xpath("//ul[@class=\"results-base\"]/li");
 
+By products=By.cssSelector(".title-count");
 	By BrandSearchBar = By.xpath("//span[text()='Brand']/following::span[1]");
 	By colourSearchBar = By.xpath("//span[text()='Color']/following::span[1]");
 	By colourInputSearchBox = By.xpath("//input[@placeholder=\"Search for Color\"]");
@@ -88,6 +89,9 @@ public class ProductListingPage {
 	By filters = By.xpath("//span[text()='FILTERS']");
 	By boys_filter = By.xpath("//label[contains(text(),'Boys')]");
 	By girls_filter = By.xpath("//label[contains(text(),'Girls')]");
+	
+	@FindBy(xpath="//span[@class=\"product-discountPercentage\"]")
+	List<WebElement> discountLabels;
 
 	{
 		PageFactory.initElements(KeyWord.driver, this);
@@ -179,8 +183,10 @@ public class ProductListingPage {
 		KeyWord.driver.findElement(colourInputSearchBox).clear();
 		KeyWord.type(KeyWord.driver.findElement(colourInputSearchBox), colour);
 		By colourOption = By.xpath("//label[@class=\"common-customCheckbox\"]");
+		PageFactory.initElements(KeyWord.driver, this);
 		WaitFor.visibilityOfelement(colourOption);
 		WaitFor.elementToBeClickaBle(colourOption);
+		
 		KeyWord.clickOn(colourOption);
 
 	}
@@ -190,6 +196,7 @@ public class ProductListingPage {
 //		KeyWord.scrollWindow();
 		for (WebElement ranges : DiscountRange) {
 			if (ranges.getText().trim().equalsIgnoreCase(range)) {
+				PageFactory.initElements(KeyWord.driver, this);
 				KeyWord.clickOn(ranges);
 				return;
 			}
@@ -204,16 +211,14 @@ public class ProductListingPage {
 		KeyWord.clickOn(BrandSearchBar);
 		KeyWord.driver.findElement(BrandInputSearchBox).clear();
 		KeyWord.type(KeyWord.driver.findElement(BrandInputSearchBox), BrandName);
-
-		// By brandOption = By.xpath("//label[@class=\"vertical-filters-label
-		// common-customCheckbox\"]");
+		PageFactory.initElements(KeyWord.driver, this);
 		WaitFor.visibilityOfelement(brandOption);
 		WaitFor.elementToBeClickaBle(brandOption);
-
 		KeyWord.clickOn(brandOption);
 	}
 
 	public void filterByColour(String colour) {
+		PageFactory.initElements(KeyWord.driver, this);
 		WaitFor.elementToBeClickaBle(ColourSelect);
 		KeyWord.clickOn(ColourSelect);
 		for (WebElement eachcolour : colourList) {
@@ -269,7 +274,14 @@ public class ProductListingPage {
 	public int getProductCount() {
 		return productCard.size();
 	}
-
+	
+	public int getProductCounts(){
+	String text=driver.findElement(products).getText();
+	text=text.replaceAll("[^0-9]","");
+	return Integer.parseInt(text);
+		}
+	
+	 
 	public void clearAllFilters() {
 		KeyWord.clickOn(clearAllButton);
 	}
@@ -309,6 +321,36 @@ public class ProductListingPage {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public String getSelectedSortOption() {
 
+	    WaitFor.visibilityOfelement(sortButton);
+
+	    return sortButton.getText()
+	            .replace("Sort by :", "")
+	            .trim();
+	}
+	
+	public List<Integer> getAllProductsDiscountPercentages() {
+		// TODO Auto-generated method stub
+		List<Integer>discounts=new ArrayList<Integer>();
+		for(WebElement discount: discountLabels) {
+			String text=discount.getText();
+
+	        String numbersOnly =
+	                text.replaceAll("[^0-9]", "");
+
+	        if (!numbersOnly.isEmpty()) {
+
+	            discounts.add(
+	                Integer.parseInt(numbersOnly));
+	        }
+			
+		}
+		
+		
+		
+		return discounts;
+	}
 
 }

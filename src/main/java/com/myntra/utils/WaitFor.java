@@ -22,13 +22,23 @@ import com.myntra.basetest.KeyWord;
  * element); WaitFor.elementToBeClickaBle(driver, element);
  */
 public class WaitFor {
+//
+//	public static final WebDriverWait wait;
+//
+//	static {
+//		wait = new WebDriverWait(KeyWord.driver, Duration.ofSeconds(60));
+//		wait.pollingEvery(Duration.ofMillis(500));
+//		wait.ignoring(NoSuchElementException.class);
+//	}
+	
+	public static WebDriverWait getWait() {
+	    WebDriverWait wait =
+	        new WebDriverWait(KeyWord.driver, Duration.ofSeconds(60));
 
-	public static final WebDriverWait wait;
+	    wait.pollingEvery(Duration.ofMillis(500));
+	    wait.ignoring(NoSuchElementException.class);
 
-	static {
-		wait = new WebDriverWait(KeyWord.driver, Duration.ofSeconds(60));
-		wait.pollingEvery(Duration.ofMillis(500));
-		wait.ignoring(NoSuchElementException.class);
+	    return wait;
 	}
 
 	/**
@@ -42,43 +52,42 @@ public class WaitFor {
 	}
 
 	public static void visibilityOfelement(By locator) {
-		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+		getWait().until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator)));
 
 	}
-
 	public static void elementToBeClickaBle(By locator) {
-		wait.until(ExpectedConditions.elementToBeClickable(locator));
-
+		getWait().until(ExpectedConditions.refreshed(
+	            ExpectedConditions.elementToBeClickable(locator)));
 	}
 
 	public static WebElement visibilityOfelement(WebElement element) {
-		return wait.until(ExpectedConditions.visibilityOf(element));
-
+	    return getWait().until(ExpectedConditions.refreshed(
+	            ExpectedConditions.visibilityOf(element)));
 	}
 
 	public static WebElement elementToBeClickaBle(WebElement element) {
-		return wait.until(ExpectedConditions.elementToBeClickable(element));
-
+	    return getWait().until(ExpectedConditions.refreshed(
+	            ExpectedConditions.elementToBeClickable(element)));
 	}
 
 	public static List<WebElement> visibilityOfAll(List<WebElement> elements) {
 
-		return wait.until(ExpectedConditions.visibilityOfAllElements(elements));
+		return getWait().until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOfAllElements(elements)));
 	}
 
 	public static List<WebElement> visibilityOfAll(By elements) {
 
-		return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(elements));
+		return getWait().until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOfAllElementsLocatedBy(elements)));
 	}
 
 	public static void untilElementGotStale(WebElement webElement) {
 
-		wait.until(ExpectedConditions.stalenessOf(webElement));
+		getWait().until(ExpectedConditions.stalenessOf(webElement));
 
 	}
 
 	public static void untilElementGotStale(By locator) {
-		wait.until(ExpectedConditions.stalenessOf(KeyWord.driver.findElement(locator)));
+		getWait().until(ExpectedConditions.stalenessOf(KeyWord.driver.findElement(locator)));
 	}
 
 }

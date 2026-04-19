@@ -10,7 +10,7 @@ import com.myntra.basetest.KeyWord;
 import com.myntra.dataprovider.MyntraSearchTest;
 import com.myntra.pages.BeautyPage;
 import com.myntra.pages.HomePage;
-import com.myntra.pages.SearchResultPage;
+
 import com.myntra.utils.ConfigReader;
 
 /**

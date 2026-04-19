@@ -24,7 +24,7 @@ public class ExcelReader {
 	
 	public static Object[][] readExcel(int sheetIndex) throws IOException{
 		
-		FileInputStream file=new FileInputStream("src/test/resources/Lipsticks_Brands.xlsx");
+		FileInputStream file=new FileInputStream("src/test/resources/TestData.xlsx");
 		XSSFWorkbook book=new XSSFWorkbook(file);
 		
 		XSSFSheet sheet=book.getSheetAt(sheetIndex);
@@ -44,7 +44,7 @@ public class ExcelReader {
 			   switch (cell.getCellType()) {
 			case STRING: 
 				String value=cell.getStringCellValue();
-				data[i-1][j] = value;
+				data[i-1][j] = value.trim();
 				System.out.println(value);
 				break;
 			

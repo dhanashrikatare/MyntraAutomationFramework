@@ -16,7 +16,7 @@ import com.myntra.pages.HomePage;
 import com.myntra.pages.LoginPage;
 import com.myntra.pages.ProductDetails;
 import com.myntra.pages.ProductListingPage;
-import com.myntra.pages.SearchResultPage;
+
 import com.myntra.utils.ConfigReader;
 import com.myntra.utils.ExcelReader;
 import com.myntra.utils.WaitFor;
@@ -101,7 +101,10 @@ public class EndToEnd extends BaseClass {
 	@Test(priority=6,dataProvider = "searchData", dataProviderClass = MyntraSearchTest.class, description = "test case to verify that when user search for valid product"
 			+ " then product listing page opens and when user click on any product then product details page opens with correct product information")
 	public void verifyValidProductIsgettingSearchAndProductDetailPageOpens(String product) {
-		SearchResultPage search = new SearchResultPage();
+		HomePage search = new HomePage();
+		search.enterTextOnSearchBar("Lipsticks");
+		search.enterPressOnSearchBar();
+	
 		ProductListingPage plp = new ProductListingPage();
 		ProductDetails pdp = new ProductDetails();
 		search.clickOnSearchResultsHeader();
@@ -111,7 +114,7 @@ public class EndToEnd extends BaseClass {
 		// prodcutlisting page opens
 		plp.clickProduct(2);
 
-		KeyWord.switchToNewTab();
+		switchToNewTab();
 		// product detail page opens
 		String ActualpdpName = pdp.getBrandName();
 
