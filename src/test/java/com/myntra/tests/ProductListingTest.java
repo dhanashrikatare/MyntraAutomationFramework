@@ -10,14 +10,16 @@ import static com.myntra.basetest.KeyWord.*;
 import java.util.List;
 
 import com.myntra.basetest.BaseClass;
+import com.myntra.dataprovider.LipstickDataProvider;
+import com.myntra.pages.HomePage;
 import com.myntra.pages.ProductListingPage;
 import com.myntra.pages.SearchResultPage;
 
 public class ProductListingTest extends BaseClass {
 	
-	
-	public void toVerifyValidProductSearch() {
-		SearchResultPage srp = new SearchResultPage();
+	@Test (description = "test case to verify PLP page display after valid product search" )
+	public void toVerifyPlpPageDisplayAfterValidProductSearch(String product) {
+		HomePage srp = new HomePage();
 		srp.clickOnSearchResultsHeader();
 		srp.enterTextOnSearchBar("Shampoo");
 		srp.enterPressOnSearchBar();
@@ -31,16 +33,17 @@ public class ProductListingTest extends BaseClass {
 		System.out.println("Products are Displayed..");
 	}
 	
-	@Test
-	public void toVerifyIsBrandFilterWorking() {
-		SearchResultPage srp = new SearchResultPage();
+	@Test(description = "test case to verify brand filter functionality on PLP page", dependsOnMethods = "toVerifyPlpPageDisplayAfterValidProductSearch",
+			dataProvider = "brandData", dataProviderClass =LipstickDataProvider.class)
+	public void toVerifyBrandFilterOnPlpPage(String brand) {
+		HomePage srp = new HomePage();
 		srp.clickOnSearchResultsHeader();
-		srp.enterTextOnSearchBar("Shampoo");
+		srp.enterTextOnSearchBar(brand);
 		srp.enterPressOnSearchBar();
 		ProductListingPage plp = new ProductListingPage();
-		plp.filterByBrand("LOreal");
+		plp.filterByBrand(brand);
 		
-		Assert.assertTrue(plp.getAllProductsBrands().contains("Loreal"), "Brand filter not applied correctly");
+		Assert.assertTrue(plp.getAllProductsBrands().contains(brand), "Brand filter not applied correctly");
 		System.out.println("Brand filter applied successfully..");
 	}
 	

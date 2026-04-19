@@ -11,12 +11,20 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.testng.annotations.DataProvider;
 
+
+/** * ExcelReader ────────────── Reads data from an Excel file and returns it as a
+ * 2D Object array.
+ *
+ * Usage: Object[][] data = ExcelReader.readExcel(0); // reads the first sheet
+ *
+ * This class uses Apache POI library to read .xlsx files. It handles both
+ * String and Numeric cell types.
+ */
 public class ExcelReader {
 	
-	@DataProvider(name="ExcelData")
 	public static Object[][] readExcel(int sheetIndex) throws IOException{
 		
-		FileInputStream file=new FileInputStream("C:\\Users\\Hp\\Downloads\\Lipsticks_Brands.xlsx");
+		FileInputStream file=new FileInputStream("src/test/resources/Lipsticks_Brands.xlsx");
 		XSSFWorkbook book=new XSSFWorkbook(file);
 		
 		XSSFSheet sheet=book.getSheetAt(sheetIndex);

@@ -7,9 +7,21 @@ public class MyntraSearchTest {
 	@DataProvider(name="searchData")
 	public static Object[][]getData(){
 		return new Object[][] {
-			 {"lipstick"},
+			    {"lipstick"},
 		        {"foundation"},
-		        {"shampoo"}
+		        {"shampoo"},
+		        {"perfume"},
+		        {"eyeliner"},
+		        {"facewash"},
+		        {"moisturizer"},
+		        {"hair oil"},
+		        {"sunscreen"},
+		        {"body lotion"},
+		        {"nail polish"},
+		        {"mascara"},
+		        {"concealer"},
+		        {"blush"},
+		        {"eyeshadow"}
 		    };
 	}
 	
