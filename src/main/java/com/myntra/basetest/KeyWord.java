@@ -28,6 +28,7 @@ import com.myntra.utils.WaitFor;
  * 
  * @Test public void testSomething() { KeyWord.openBrowser(); KeyWord.openUrl();
  *       // ... other steps ... } }
+ *       @author Dhanashri-katare
  */
 public class KeyWord {
 	static String browser = ConfigReader.get("browser");

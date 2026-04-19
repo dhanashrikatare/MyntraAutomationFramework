@@ -12,7 +12,21 @@ import org.openqa.selenium.support.PageFactory;
 
 import com.myntra.basetest.KeyWord;
 import com.myntra.utils.WaitFor;
-
+/**
+ * ProductListingPage ─────── This class represents the "Product Listing" page of
+ * the Myntra website. It contains WebElements and methods to interact with the
+ * elements on that page.
+ *
+ * Example usage:
+ *
+ * public class MyTest {
+ *
+ * @Test public void testProductListingPage() { ProductListingPage plp = new
+ *       ProductListingPage(); String title = plp.getPlpTitle(); // ... other
+ *       steps ... } }
+ *
+ * @author Dhanashri-katare
+ */
 public class ProductListingPage {
 
 	@FindBy(xpath = "//li[@class=\"product-base\"]")
@@ -108,12 +122,12 @@ public class ProductListingPage {
 		// Step 1: Get product name from product list
 //
 		By productCardBy = By.xpath("//li[@class=\"product-base\"]");
-//		WaitFor.untilElementGotStale(productCardBy);
 //		// Step 2: Click product
 //		List<WebElement> products = KeyWord.driver.findElements(productCardBy);
 //		WaitFor.visibilityOfelement(productCardBy);
 
 		List<WebElement> products = WaitFor.visibilityOfAll(productCardBy);
+		
 		products.get(index).click();
 		// KeyWord.waitForSeconds(2000);
 

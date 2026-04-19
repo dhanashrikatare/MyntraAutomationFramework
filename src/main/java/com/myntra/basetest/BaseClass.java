@@ -28,9 +28,9 @@ public class BaseClass {
 		KeyWord.openUrl();
 	}
 
-//	@AfterMethod
-//	public void tearDown() {
-//		KeyWord.closeBrowser();
-//	}
+	@AfterMethod
+	public void tearDown() {
+		KeyWord.closeBrowser();
+	}
 
 }

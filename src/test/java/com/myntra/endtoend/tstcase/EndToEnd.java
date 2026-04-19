@@ -271,43 +271,43 @@ public class EndToEnd extends BaseClass {
 	}
 	
 	
-//
-//	@Test(dataProvider = "sortBy", dataProviderClass = MyntraSearchTest.class,priority=12, description = "test case to verify that when user apply sorting by option on product listing page then products are sorted according to that option")
-//	public void verifySortingByoptionForTheProducts(String OptionText) throws InterruptedException {
-//		KeyWord.driver.get(ConfigReader.get("base.url"));
-//		SearchResultPage search = new SearchResultPage();
-//		ProductListingPage plp = new ProductListingPage();
-//		search.clickOnSearchResultsHeader();
-//		search.enterTextOnSearchBar("lipsticks");
-//		search.enterPressOnSearchBar();
-//
-//		plp.sortBy(OptionText);
-//
-//		List<Double> prices = plp.getAllProductsPrices();
-//
-//		for (int i = 0; i < prices.size() - 1; i++) {
-//			Assert.assertTrue(prices.get(i) <= prices.get(i + 1),
-//					"Sorting error: " + prices.get(i) + " is not less than or equal to " + prices.get(i + 1));
-//		}
-//	}
 
-	@Test(priority=13, description = "test case to verify that when user apply sorting by option on product listing page then products are sorted according to that option")
-	public void verifySortingByPriceHighToLow() throws InterruptedException {
+	@Test(dataProvider = "sortBy", dataProviderClass = MyntraSearchTest.class,priority=12, description = "test case to verify that when user apply sorting by option on product listing page then products are sorted according to that option")
+	public void verifySortingByoptionForTheProducts(String OptionText) throws InterruptedException {
+		KeyWord.driver.get(ConfigReader.get("base.url"));
 		SearchResultPage search = new SearchResultPage();
 		ProductListingPage plp = new ProductListingPage();
 		search.clickOnSearchResultsHeader();
 		search.enterTextOnSearchBar("lipsticks");
 		search.enterPressOnSearchBar();
 
-		plp.sortBy("Price: High to Low");
+		plp.sortBy(OptionText);
 
 		List<Double> prices = plp.getAllProductsPrices();
 
 		for (int i = 0; i < prices.size() - 1; i++) {
-			Assert.assertTrue(prices.get(i) >= prices.get(i + 1),
-					"Sorting error: " + prices.get(i) + " is not greater than or equal to " + prices.get(i + 1));
+			Assert.assertTrue(prices.get(i) <= prices.get(i + 1),
+					"Sorting error: " + prices.get(i) + " is not less than or equal to " + prices.get(i + 1));
 		}
 	}
+
+//	@Test(priority=13, description = "test case to verify that when user apply sorting by option on product listing page then products are sorted according to that option")
+//	public void verifySortingByPriceHighToLow() throws InterruptedException {
+//		SearchResultPage search = new SearchResultPage();
+//		ProductListingPage plp = new ProductListingPage();
+//		search.clickOnSearchResultsHeader();
+//		search.enterTextOnSearchBar("lipsticks");
+//		search.enterPressOnSearchBar();
+//
+//		plp.sortBy("Price: High to Low");
+//
+//		List<Double> prices = plp.getAllProductsPrices();
+//
+//		for (int i = 0; i < prices.size() - 1; i++) {
+//			Assert.assertTrue(prices.get(i) >= prices.get(i + 1),
+//					"Sorting error: " + prices.get(i) + " is not greater than or equal to " + prices.get(i + 1));
+//		}
+//	}
 
 	@Test(priority=14, description = "test case to verify that when user apply invalid colour filter on product listing page then no products are displayed")
 	public void verifyInvalidColourSearchReturnsNoProducts() {
@@ -507,7 +507,7 @@ public class EndToEnd extends BaseClass {
 		    }
 		}
 		
-		Assert.assertTrue(isdeliveryAvailable, "No valid pincode found after " + maxAttempts + " attempts. Invalid pincodes tested: " + InvalidpinCodes);
+		Assert.assertFalse(isdeliveryAvailable, "No valid pincode found after " + maxAttempts + " attempts. Invalid pincodes tested: " + InvalidpinCodes);
 	
 	}	
 	

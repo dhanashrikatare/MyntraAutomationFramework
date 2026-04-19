@@ -9,7 +9,21 @@ import org.openqa.selenium.support.PageFactory;
 
 import com.myntra.basetest.KeyWord;
 import com.myntra.utils.WaitFor;
-
+/**
+ * ProductDetails ─────── This class represents the "Product Details" page of the
+ * Myntra website. It contains WebElements and methods to interact with the
+ * elements on that page.
+ *
+ * Example usage:
+ *
+ * public class MyTest {
+ *
+ * @Test public void testProductDetails() { ProductDetails productDetails = new
+ *       ProductDetails(); String brandName = productDetails.getBrandName(); // ...
+ *       other steps ... } }
+ *
+ * @author Dhanashri-katare
+ */
 
 public class ProductDetails {
 

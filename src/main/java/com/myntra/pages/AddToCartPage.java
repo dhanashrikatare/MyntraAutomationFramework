@@ -9,6 +9,20 @@ import org.openqa.selenium.support.PageFactory;
 import com.myntra.basetest.KeyWord;
 import com.myntra.utils.WaitFor;
 
+/**
+ * AddToCartPage ─────── This class represents the "Add to Cart" page of the
+ * Myntra website. It contains WebElements and methods to interact with the
+ * elements on that page.
+ *
+ * Example usage:
+ *
+ * public class MyTest {
+ *
+ * @Test public void testAddToCart() { AddToCartPage cartPage = new AddToCartPage();
+ *       cartPage.clickOnCoupon(); // ... other steps ... } }
+ *
+ * @author Dhanashri-katare
+ */
 public class AddToCartPage {
 	
 	@FindBy(xpath="//div[text()='APPLY']")
