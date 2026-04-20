@@ -55,6 +55,10 @@ public class HomePage {
 	@FindBy(xpath = "//p[@class=\"index-infoBig\"]")
 	WebElement CouldNotFindAnyMatches;
 	
+	{
+		PageFactory.initElements(KeyWord.driver, this);
+	}
+	
 	public String getCouldNotFindAnyMatchesText() {
 		WaitFor.visibilityOfelement(CouldNotFindAnyMatches);
 		return CouldNotFindAnyMatches.getText();
