@@ -3,6 +3,7 @@ package com.myntra.pages;
 import java.util.List;
 import java.util.Random;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -144,6 +145,7 @@ public class ProductDetails {
 	}
 	
 	public String getDeliveryAvailableMessage() {
+		WaitFor.visibilityOfelement(deliveryAvailableMsg);
 		return KeyWord.getText(deliveryAvailableMsg);
 	}
 	
@@ -157,7 +159,11 @@ public class ProductDetails {
 		
 	}
 	
-	
+	public String getInvalidPinMessage() {
+		WaitFor.visibilityOfelement(invalidPinMessage);
+		return invalidPinMessage.getText();
+		
+	}
 	
 	
 	public boolean isWishListButtonIsPresent() {
@@ -279,5 +285,41 @@ public class ProductDetails {
 		KeyWord.clickOn(ChangePincodeButton);
 		
 	}
+	
+	public void switchToChildWindow() {
+		String parentWindow=KeyWord.driver.getWindowHandle();
+		for(String window:KeyWord.driver.getWindowHandles()) {
+			if(!window.equals(parentWindow)) {
+				KeyWord.driver.switchTo().window(window);
+				break;
+			}
+		}
+	}
+	
+	public void switchToParentWindow() {
+		String parentWindow=KeyWord.driver.getWindowHandle();
+		for(String window:KeyWord.driver.getWindowHandles()) {
+			KeyWord.driver.switchTo().window(window);
+			break;
+		}
+	}
+
+	public void closePdpPage() {
+		KeyWord.driver.close();
+	}
+	
+	public int getBagCount() {
+		
+		By bagCount=By.xpath("//span[contains(@class,'desktop-badge')]");
+		String count=(KeyWord.driver.findElement(bagCount).getText().trim());
+		// TODO Auto-generated method stub
+
+	    if (count.isEmpty()) {
+	        return 0;
+	    }
+
+		return Integer.parseInt(count);
+	}
+
 
 }
