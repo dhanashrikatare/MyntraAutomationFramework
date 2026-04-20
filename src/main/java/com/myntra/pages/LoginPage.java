@@ -12,10 +12,23 @@ public class LoginPage {
 	@FindBy(css = ".wishlistLogin-button")
 	WebElement  wishListLoginPopUp;
 	
+	@FindBy(xpath="//div[@class=\"signInContainer\"]")
+	WebElement loginPage;
 	
 	{
 		
 		PageFactory.initElements(KeyWord.driver, this);
+	}
+	
+	public boolean isLoginPageDisplayed() {
+		WaitFor.visibilityOfelement(loginPage);
+		try {
+			return KeyWord.isDisplayed(loginPage);
+		}
+		catch(RuntimeException e) {
+			
+		}
+		return false;
 	}
 	
 	
