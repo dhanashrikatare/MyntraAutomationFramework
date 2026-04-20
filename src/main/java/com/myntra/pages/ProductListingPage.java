@@ -12,10 +12,11 @@ import org.openqa.selenium.support.PageFactory;
 
 import com.myntra.basetest.KeyWord;
 import com.myntra.utils.WaitFor;
+
 /**
- * ProductListingPage ─────── This class represents the "Product Listing" page of
- * the Myntra website. It contains WebElements and methods to interact with the
- * elements on that page.
+ * ProductListingPage ─────── This class represents the "Product Listing" page
+ * of the Myntra website. It contains WebElements and methods to interact with
+ * the elements on that page.
  *
  * Example usage:
  *
@@ -31,6 +32,8 @@ public class ProductListingPage {
 
 	@FindBy(xpath = "//li[@class=\"product-base\"]")
 	List<WebElement> productCard;
+	@FindBy(xpath = "//h3[@class=\"product-brand\"]")
+	List<WebElement> productBrand;
 
 	@FindBy(xpath = "//ul[@class=\"FilterDirectory-list\"]/li")
 	List<WebElement> brandNames;
@@ -46,8 +49,6 @@ public class ProductListingPage {
 
 	@FindBy(xpath = "//label[@class=\"vertical-filters-label common-customCheckbox\"]")
 	WebElement brandOption;
-
-//	List<WebElement> activeFilterChips;
 
 	@FindBy(xpath = "//span[@class=\"header-clearAllBtn\"]")
 	WebElement clearAllButton;
@@ -76,39 +77,40 @@ public class ProductListingPage {
 	@FindBy(xpath = "//h3[@class=\"product-brand\"]")
 	List<WebElement> brands;
 
-	// By brands=By.xpath("//ul[@class=\"results-base\"]/li");
+	@FindBy(xpath = "//h4[text()='Colour Family']")
+	WebElement ColourSelect;
 
-By products=By.cssSelector(".title-count");
+	@FindBy(xpath = "//span[@class=\"product-discountPercentage\"]")
+	List<WebElement> discountLabels;
+
+	@FindBy(xpath = "//span[@class=\"product-discountedPrice\"]")
+	List<WebElement> productPrice;
+
+	By products = By.cssSelector(".title-count");
 	By BrandSearchBar = By.xpath("//span[text()='Brand']/following::span[1]");
 	By colourSearchBar = By.xpath("//span[text()='Color']/following::span[1]");
 	By colourInputSearchBox = By.xpath("//input[@placeholder=\"Search for Color\"]");
 	By BrandInputSearchBox = By.xpath("//input[@placeholder=\"Search for Brand\"]");
 
-	@FindBy(xpath = "//h4[text()='Colour Family']")
-	WebElement ColourSelect;
 	By filters = By.xpath("//span[text()='FILTERS']");
 	By boys_filter = By.xpath("//label[contains(text(),'Boys')]");
 	By girls_filter = By.xpath("//label[contains(text(),'Girls')]");
-	
-	@FindBy(xpath="//span[@class=\"product-discountPercentage\"]")
-	List<WebElement> discountLabels;
 
 	{
 		PageFactory.initElements(KeyWord.driver, this);
 	}
-	
+
 	public String getPlpTitle() {
 		return KeyWord.driver.getTitle();
 	}
-	
+
 	public String getPlpBreadCrumb() {
 		return breadCrumb.getText();
 	}
-	
+
 	public String getPlpUrl() {
 		return KeyWord.driver.getCurrentUrl();
 	}
-	
 
 	public boolean verifyMultipleBrands(List<String> brands) {
 		for (WebElement brand : brandNames) {
@@ -122,28 +124,22 @@ By products=By.cssSelector(".title-count");
 	}
 
 	public void clickProduct(int index) {
-		// KeyWord.waitForSeconds(3000);
-		// Step 1: Get product name from product list
-//
 		By productCardBy = By.xpath("//li[@class=\"product-base\"]");
-//		// Step 2: Click product
-//		List<WebElement> products = KeyWord.driver.findElements(productCardBy);
-//		WaitFor.visibilityOfelement(productCardBy);
 
 		List<WebElement> products = WaitFor.visibilityOfAll(productCardBy);
-		
+
 		products.get(index).click();
-		// KeyWord.waitForSeconds(2000);
 
 	}
-
-//	public String getProductText(String name) {
-//		return productCards.get
-//	}
 
 	public String getProductText(int index) {
 
 		return productCard.get(index).getText();
+	}
+
+	public String getProductBrand(int index) {
+		return productBrand.get(index).getText();
+
 	}
 
 	/** opens the dropdown and select by entering text **/
@@ -186,7 +182,7 @@ By products=By.cssSelector(".title-count");
 		PageFactory.initElements(KeyWord.driver, this);
 		WaitFor.visibilityOfelement(colourOption);
 		WaitFor.elementToBeClickaBle(colourOption);
-		
+
 		KeyWord.clickOn(colourOption);
 
 	}
@@ -274,14 +270,13 @@ By products=By.cssSelector(".title-count");
 	public int getProductCount() {
 		return productCard.size();
 	}
-	
-	public int getProductCounts(){
-	String text=driver.findElement(products).getText();
-	text=text.replaceAll("[^0-9]","");
-	return Integer.parseInt(text);
-		}
-	
-	 
+
+	public int getProductCounts() {
+		String text = driver.findElement(products).getText();
+		text = text.replaceAll("[^0-9]", "");
+		return Integer.parseInt(text);
+	}
+
 	public void clearAllFilters() {
 		KeyWord.clickOn(clearAllButton);
 	}
@@ -295,15 +290,18 @@ By products=By.cssSelector(".title-count");
 		return colourNames;
 	}
 
-	public List<Double> getAllProductsPrices() {
-		// TODO Auto-generated method stub
-		return null;
+	public int getProductPrice(int index) {
+		String textPrice = productPrice.get(index).getText().trim();
+		String fTextPrice = textPrice.replace("Rs. ", "");
+
+		return Integer.parseInt(fTextPrice);
+
 	}
 
 	public boolean areAllProductsRelatedToLipsticks() {
-		for(WebElement product:productCard) {
-			String productText=product.getText().toLowerCase();
-			if(!productText.contains("lipstick")) {
+		for (WebElement product : productCard) {
+			String productText = product.getText().toLowerCase();
+			if (!productText.contains("lipstick")) {
 				return false;
 			}
 		}
@@ -311,45 +309,57 @@ By products=By.cssSelector(".title-count");
 	}
 
 	public boolean isBrandFilterApplied(String string) {
-		 for (WebElement brand : productBrands) {
-	            String actualBrand = brand.getText().trim();
-	            if (!actualBrand.equalsIgnoreCase(string)) {
-	                return false; // Found a product that does not match the filter
-	            }
-	        }
-	        return true; // All products match the filter
+		for (WebElement brand : productBrands) {
+			String actualBrand = brand.getText().trim();
+			if (!actualBrand.equalsIgnoreCase(string)) {
+				return false; // Found a product that does not match the filter
+			}
+		}
+		return true; // All products match the filter
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	public String getSelectedSortOption() {
 
-	    WaitFor.visibilityOfelement(sortButton);
+		WaitFor.visibilityOfelement(sortButton);
 
-	    return sortButton.getText()
-	            .replace("Sort by :", "")
-	            .trim();
+		return sortButton.getText().replace("Sort by :", "").trim();
 	}
-	
+
+	public void switchToChildWindow() {
+		String parentWindow = KeyWord.driver.getWindowHandle();
+		for (String window : KeyWord.driver.getWindowHandles()) {
+			if (!window.equals(parentWindow)) {
+				KeyWord.driver.switchTo().window(window);
+				break;
+			}
+		}
+	}
+
+	public void switchToParentWindow() {
+		String parentWindow = KeyWord.driver.getWindowHandle();
+		for (String window : KeyWord.driver.getWindowHandles()) {
+			KeyWord.driver.switchTo().window(window);
+			break;
+		}
+	}
+
 	public List<Integer> getAllProductsDiscountPercentages() {
 		// TODO Auto-generated method stub
-		List<Integer>discounts=new ArrayList<Integer>();
-		for(WebElement discount: discountLabels) {
-			String text=discount.getText();
+		List<Integer> discounts = new ArrayList<Integer>();
+		for (WebElement discount : discountLabels) {
+			String text = discount.getText();
 
-	        String numbersOnly =
-	                text.replaceAll("[^0-9]", "");
+			String numbersOnly = text.replaceAll("[^0-9]", "");
 
-	        if (!numbersOnly.isEmpty()) {
+			if (!numbersOnly.isEmpty()) {
 
-	            discounts.add(
-	                Integer.parseInt(numbersOnly));
-	        }
-			
+				discounts.add(Integer.parseInt(numbersOnly));
+			}
+
 		}
-		
-		
-		
+
 		return discounts;
 	}
 
