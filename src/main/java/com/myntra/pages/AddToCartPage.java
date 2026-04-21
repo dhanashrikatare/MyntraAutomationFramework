@@ -44,7 +44,11 @@ public class AddToCartPage {
 	@FindBy(css = ".CheckDeliveryModalV2-base-checkBtn")
 	WebElement checkField;
 
+<<<<<<< Updated upstream
 	@FindBy(xpath = "//p[@class=\"pincode-error pincode-enterPincode\"] ")
+=======
+	@FindBy(xpath = "//div[@class=\"inputV2-base-errorMessage \"] ")
+>>>>>>> Stashed changes
 	WebElement errorMSG;
 
 	@FindBy(css = ".addressStripV2-base-changeBtn")
@@ -74,6 +78,28 @@ public class AddToCartPage {
 	@FindBy(xpath = "//span[@class=\"itemComponents-base-rupeeBoldIcon\"]/parent::div")
 	List<WebElement> productPrices;
 
+<<<<<<< Updated upstream
+=======
+	@FindBy(xpath = "//div[@class=\"cartFillerProduct-base-cartFillerProduct\"]")
+	WebElement moreProducts;
+	
+	@FindBy(xpath="//div[@class=\"bulkActionStrip-selectionIcon\"]")
+	WebElement CheckBox;
+
+	@FindBy(xpath="//span[@class=\"bulkActionStrip-itemSelected\"]")
+	WebElement getBagItemCount;
+	
+	@FindBy(xpath="//div[@class=\"emptyCart-base-emptyText\"]")
+	WebElement emptyCart;
+
+	@FindBy(xpath="//button[contains(text(),'MOVE TO WISHLIST')]")
+	WebElement MoveWishList;
+	
+	@FindBy(xpath="//div[@class=\"inlinebuttonV2-base-actions \"]/child::div[2]")
+	WebElement movePopUpBtn;	
+	
+	
+>>>>>>> Stashed changes
 	{
 		PageFactory.initElements(KeyWord.driver, this);
 	}
@@ -86,6 +112,19 @@ public class AddToCartPage {
 		KeyWord.clickOn(coupons);
 
 	}
+<<<<<<< Updated upstream
+=======
+	
+	public boolean isEmptyCartDisplayed() {
+		WaitFor.visibilityOfelement(emptyCart);
+		return emptyCart.isDisplayed();
+	}
+	
+	public String getTexytOfEmptyCart() {
+		WaitFor.visibilityOfelement(emptyCart);
+		return emptyCart.getText().trim();
+	}
+>>>>>>> Stashed changes
 
 	public void clickOnRemoveBtn() {
 		WaitFor.visibilityOfelement(removeBtn);
@@ -95,6 +134,14 @@ public class AddToCartPage {
 
 	}
 
+<<<<<<< Updated upstream
+=======
+	public int getBagItemCount() {
+		String count=getBagItemCount.getText().trim();
+		 return Integer.parseInt(count.split("/")[0]);
+	}
+	
+>>>>>>> Stashed changes
 	public void clickOnRemovePopUpBtn() {
 		WaitFor.visibilityOfelement(removePopUpBtn);
 		WaitFor.elementToBeClickaBle(removePopUpBtn);
@@ -103,6 +150,13 @@ public class AddToCartPage {
 
 	}
 
+<<<<<<< Updated upstream
+=======
+	public void selectCheckBox() {
+		KeyWord.clickOn(CheckBox);
+	}
+	
+>>>>>>> Stashed changes
 	public boolean isRemovePopUpDisplayed() {
 		try {
 			return removePopUpBtn.isDisplayed();
@@ -147,9 +201,15 @@ public class AddToCartPage {
 		try {
 			return deliveryAvailableMsg.isDisplayed();
 		} catch (Exception e) {
+<<<<<<< Updated upstream
 			return false;
 		}
 
+=======
+			
+		}
+		return false;
+>>>>>>> Stashed changes
 	}
 
 	public String generateRandomPin() {
@@ -163,10 +223,13 @@ public class AddToCartPage {
 		return ItemRemove.getText();
 	}
 
+<<<<<<< Updated upstream
 	public void clickOnRemoveButton() {
 		// TODO Auto-generated method stub
 
 	}
+=======
+>>>>>>> Stashed changes
 
 	public boolean isPlaceOrderBtnDisplayed() {
 		try {
@@ -203,14 +266,24 @@ public class AddToCartPage {
 
 	public int getPriceOfProduct() {
 		String text = productPrice.getText().trim();
+<<<<<<< Updated upstream
 		
 		String Pricetext=text.replace("₹", "");
+=======
+
+		String Pricetext = text.replace("₹", "");
+>>>>>>> Stashed changes
 
 		return Integer.parseInt(Pricetext);
 	}
 
 	/**
+<<<<<<< Updated upstream
 	 * Returns the brand text for the product at the given 0-based index in the cart.
+=======
+	 * Returns the brand text for the product at the given 0-based index in the
+	 * cart.
+>>>>>>> Stashed changes
 	 */
 	public String getProductBrand(int index) {
 		By brandsBy = By.xpath("//div[@class='itemContainer-base-brand']");
@@ -219,7 +292,12 @@ public class AddToCartPage {
 	}
 
 	/**
+<<<<<<< Updated upstream
 	 * Returns the price (integer) for the product at the given 0-based index in the cart.
+=======
+	 * Returns the price (integer) for the product at the given 0-based index in the
+	 * cart.
+>>>>>>> Stashed changes
 	 */
 	public int getPriceOfProduct(int index) {
 		By pricesBy = By.xpath("//span[@class=\"itemComponents-base-rupeeBoldIcon\"]/parent::div");
@@ -228,5 +306,36 @@ public class AddToCartPage {
 		String pricetext = text.replace("₹", "").replace("Rs.", "").replaceAll("[^0-9]", "");
 		return Integer.parseInt(pricetext);
 	}
+<<<<<<< Updated upstream
+=======
+
+	public void ScrollCartWindow() {
+		KeyWord.scrollWindow();
+	}
+
+	public boolean isMoreProductsVisible() {
+		WaitFor.visibilityOfelement(moreProducts);
+		return moreProducts.isDisplayed();
+	}
+
+	public String getCartUrl() {
+		return KeyWord.getCurrentUrl();
+	}
+
+	public void clickOnWishListBtn() {
+		// TODO Auto-generated method stub
+		WaitFor.visibilityOfelement(MoveWishList);
+		KeyWord.clickOn(MoveWishList);
+		
+	}
+
+	public void clickOnMovePopUpBtn() {
+		// TODO Auto-generated method stub
+		WaitFor.visibilityOfelement(movePopUpBtn);
+		WaitFor.elementToBeClickaBle(movePopUpBtn);
+
+		KeyWord.clickOn(movePopUpBtn);
+	}
+>>>>>>> Stashed changes
 
 }

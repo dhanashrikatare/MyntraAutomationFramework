@@ -350,8 +350,15 @@ public class ProductListingPage {
 		List<Integer> discounts = new ArrayList<Integer>();
 		for (WebElement discount : discountLabels) {
 			String text = discount.getText();
+<<<<<<< Updated upstream
 
 			String numbersOnly = text.replaceAll("[^0-9]", "");
+=======
+//			System.out.println(text);
+
+			String numbersOnly = text.replaceAll("[^0-9]", "");
+			System.out.println(numbersOnly);
+>>>>>>> Stashed changes
 
 			if (!numbersOnly.isEmpty()) {
 

@@ -16,11 +16,19 @@ public class MyntraSearchTest {
 		return new Object[][] { { "White" }, { "Black" }, { "Transparent" }, { "Pink" }, { "Brown" }, { "Red" },
 				{ "Green" }, { "Multi" }, { "Yellow" }, { "Blue" }, { "Beige" }, { "Purple" }, { "Orange" }, { "Nude" },
 				{ "Gold" }, { "Maroon" }, { "Silver" }, { "Peach" }, { "Grey" }, { "Cream" }, { "Off White" },
+<<<<<<< Updated upstream
 				{ "Burgundy" }, { "Magenta" }, { "Lavender" }, { "Coffee Brown" }, { "Mauve" }, { "Navy Blue" },
 				{ "Rose" }, { "Assorted" }, { "Rose Gold" }, { "Turquoise Blue" }, { "Camel Brown" }, { "Coral" },
 				{ "Teal" }, { "Olive" }, { "Tan" }, { "Rust" }, { "Sea Green" }, { "Charcoal" }, { "Bronze" },
 				{ "Copper" }, { "Violet" }, { "Lime Green" }, { "Steel" }, { "Metallic" }, { "Mustard" },
 				{ "Champagne" }, { "Taupe" }, { "Fluorescent Green" }, { "Khaki" }, { "Grey Melange" }, { "Skin" } };
+=======
+				{ "Burgundy" }, { "Magenta" }, { "Lavender" }, { "Coffee Brown" }, { "Mauve" },
+				{ "Rose" }, { "Assorted" }, { "Rose Gold" }, { "Camel Brown" }, { "Coral" },
+				{ "Olive" }, { "Tan" }, { "Rust" },  { "Bronze" },
+				{ "Copper" }, { "Violet" }, { "Metallic" }, 
+				{ "Champagne" }, { "Taupe" }, { "Khaki" } };
+>>>>>>> Stashed changes
 	}
 
 	@DataProvider(name = "sortBy")
