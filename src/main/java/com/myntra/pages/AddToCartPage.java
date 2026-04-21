@@ -44,11 +44,9 @@ public class AddToCartPage {
 	@FindBy(css = ".CheckDeliveryModalV2-base-checkBtn")
 	WebElement checkField;
 
-<<<<<<< Updated upstream
-	@FindBy(xpath = "//p[@class=\"pincode-error pincode-enterPincode\"] ")
-=======
+
 	@FindBy(xpath = "//div[@class=\"inputV2-base-errorMessage \"] ")
->>>>>>> Stashed changes
+
 	WebElement errorMSG;
 
 	@FindBy(css = ".addressStripV2-base-changeBtn")
@@ -75,11 +73,10 @@ public class AddToCartPage {
 	@FindBy(xpath = "//div[@class='itemContainer-base-brand']")
 	List<WebElement> productBrands;
 
-	@FindBy(xpath = "//span[@class=\"itemComponents-base-rupeeBoldIcon\"]/parent::div")
-	List<WebElement> productPrices;
+//	@FindBy(xpath = "//span[@class=\"itemComponents-base-rupeeBoldIcon\"]/parent::div")
+//	List<WebElement> productPrices;
 
-<<<<<<< Updated upstream
-=======
+
 	@FindBy(xpath = "//div[@class=\"cartFillerProduct-base-cartFillerProduct\"]")
 	WebElement moreProducts;
 	
@@ -99,7 +96,7 @@ public class AddToCartPage {
 	WebElement movePopUpBtn;	
 	
 	
->>>>>>> Stashed changes
+
 	{
 		PageFactory.initElements(KeyWord.driver, this);
 	}
@@ -112,8 +109,7 @@ public class AddToCartPage {
 		KeyWord.clickOn(coupons);
 
 	}
-<<<<<<< Updated upstream
-=======
+
 	
 	public boolean isEmptyCartDisplayed() {
 		WaitFor.visibilityOfelement(emptyCart);
@@ -124,7 +120,7 @@ public class AddToCartPage {
 		WaitFor.visibilityOfelement(emptyCart);
 		return emptyCart.getText().trim();
 	}
->>>>>>> Stashed changes
+
 
 	public void clickOnRemoveBtn() {
 		WaitFor.visibilityOfelement(removeBtn);
@@ -134,14 +130,13 @@ public class AddToCartPage {
 
 	}
 
-<<<<<<< Updated upstream
-=======
+
 	public int getBagItemCount() {
 		String count=getBagItemCount.getText().trim();
 		 return Integer.parseInt(count.split("/")[0]);
 	}
 	
->>>>>>> Stashed changes
+
 	public void clickOnRemovePopUpBtn() {
 		WaitFor.visibilityOfelement(removePopUpBtn);
 		WaitFor.elementToBeClickaBle(removePopUpBtn);
@@ -150,13 +145,12 @@ public class AddToCartPage {
 
 	}
 
-<<<<<<< Updated upstream
-=======
+
 	public void selectCheckBox() {
 		KeyWord.clickOn(CheckBox);
 	}
 	
->>>>>>> Stashed changes
+
 	public boolean isRemovePopUpDisplayed() {
 		try {
 			return removePopUpBtn.isDisplayed();
@@ -201,15 +195,14 @@ public class AddToCartPage {
 		try {
 			return deliveryAvailableMsg.isDisplayed();
 		} catch (Exception e) {
-<<<<<<< Updated upstream
-			return false;
+
 		}
 
-=======
+
 			
-		}
+		
 		return false;
->>>>>>> Stashed changes
+
 	}
 
 	public String generateRandomPin() {
@@ -223,13 +216,7 @@ public class AddToCartPage {
 		return ItemRemove.getText();
 	}
 
-<<<<<<< Updated upstream
-	public void clickOnRemoveButton() {
-		// TODO Auto-generated method stub
 
-	}
-=======
->>>>>>> Stashed changes
 
 	public boolean isPlaceOrderBtnDisplayed() {
 		try {
@@ -266,13 +253,9 @@ public class AddToCartPage {
 
 	public int getPriceOfProduct() {
 		String text = productPrice.getText().trim();
-<<<<<<< Updated upstream
-		
-		String Pricetext=text.replace("₹", "");
-=======
 
 		String Pricetext = text.replace("₹", "");
->>>>>>> Stashed changes
+
 
 		return Integer.parseInt(Pricetext);
 	}
@@ -306,8 +289,7 @@ public class AddToCartPage {
 		String pricetext = text.replace("₹", "").replace("Rs.", "").replaceAll("[^0-9]", "");
 		return Integer.parseInt(pricetext);
 	}
-<<<<<<< Updated upstream
-=======
+
 
 	public void ScrollCartWindow() {
 		KeyWord.scrollWindow();
@@ -336,6 +318,6 @@ public class AddToCartPage {
 
 		KeyWord.clickOn(movePopUpBtn);
 	}
->>>>>>> Stashed changes
+
 
 }

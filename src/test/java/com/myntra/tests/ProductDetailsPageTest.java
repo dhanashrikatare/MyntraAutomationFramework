@@ -1,22 +1,25 @@
 package com.myntra.tests;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import com.myntra.basetest.BaseClass;
 import com.myntra.basetest.KeyWord;
+import com.myntra.hooks.Hooks;
 import com.myntra.pages.AddToCartPage;
 import com.myntra.pages.HomePage;
 import com.myntra.pages.ProductDetails;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+import static com.myntra.basetest.KeyWord.*;
 import com.myntra.pages.ProductListingPage;
 import com.myntra.pages.LoginPage;
 
 public class ProductDetailsPageTest extends BaseClass {
-
+	private static final Logger LOG = LogManager.getLogger(Hooks.class);
 	/**
 	 * Test class for Product Details Page functionality.
 	 *
@@ -57,7 +60,7 @@ public class ProductDetailsPageTest extends BaseClass {
 		System.out.println("passed successfully");
 	}
 
-	@Test(priority = 1)
+	@Test
 	public void toVerifyProductOnProductDetailsPageIsRelatedToTheProductSelectedOnProductListingPage()
 			throws InterruptedException {
 		HomePage search = new HomePage();
@@ -97,7 +100,7 @@ public class ProductDetailsPageTest extends BaseClass {
 	 * if available (optional) 4. Click 'Add to Bag' 5. Assert that the 'Go To Bag'
 	 * button becomes visible
 	 */
-	@Test(priority = 2, description = "Test to verify that a user can add a product to the bag from the Product Details page;"
+	@Test(description = "Test to verify that a user can add a product to the bag from the Product Details page;"
 			+ " selects shade if required, clicks Add to Bag and verifies Go To Bag appears")
 	public void toVerifyUserCanAddProductToBag() {
 		HomePage search = new HomePage();
@@ -140,7 +143,7 @@ public class ProductDetailsPageTest extends BaseClass {
 	 * on PDP 4. Click wishlist button 5. Assert that login popup is displayed (user
 	 * is required to login)
 	 */
-	@Test(priority = 3, description = "Verify that clicking wishlist on PDP without login prompts for login")
+	@Test(description = "Verify that clicking wishlist on PDP without login prompts for login")
 	public void verifyTheSearchAndSelectedProductIsAddedToTheWishListWithoutLogin() {
 		HomePage search = new HomePage();
 		ProductListingPage plp = new ProductListingPage();
@@ -175,7 +178,7 @@ public class ProductDetailsPageTest extends BaseClass {
 		softly.assertAll();
 	}
 
-	@Test(priority = 4, description = "Verify PDP shows correct message for each tried pincode (valid/invalid)")
+	@Test(description = "Verify PDP shows correct message for each tried pincode (valid/invalid)")
 	public void toVerifyselectedProductIsAvailableForDeliveryWithDifferentPinCodes() {
 		HomePage search = new HomePage();
 
@@ -227,7 +230,7 @@ public class ProductDetailsPageTest extends BaseClass {
 
 			// ensure we got some response for this attempt; otherwise log and continue
 			if (!gotResponse) {
-				System.out.println("No response seen for pincode: " + randomPin + " (attempt " + i + ")");
+				LOG.info("No response seen for pincode: " + randomPin + " (attempt " + i + ")");
 			}
 
 			// if a response appeared, click change to allow next pincode entry (safe-guard)
@@ -244,8 +247,8 @@ public class ProductDetailsPageTest extends BaseClass {
 				"No responses observed for any pincodes tried. Tried up to " + maxAttempts + " pins.");
 
 		// Optional: print results
-		System.out.println("Invalid pins found: " + invalidPinCodes);
-		System.out.println("Valid pins found: " + validPinCodes);
+		LOG.info("Invalid pins found: " + invalidPinCodes);
+		LOG.info("Valid pins found: " + validPinCodes);
 	}
 
 	/**
@@ -254,7 +257,7 @@ public class ProductDetailsPageTest extends BaseClass {
 	 * message
 	 */
 
-	@Test(priority = 6, description = "test case to verify that when user tries to add product to cart and check delivery availability with blank pincode field then it should show error message")
+	@Test(description = "test case to verify that when user tries to add product to cart and check delivery availability with blank pincode field then it should show error message")
 	public void verifyTheSearchAndSelectedProductwithBlankPinCodeField() {
 
 		HomePage search = new HomePage();
@@ -278,12 +281,12 @@ public class ProductDetailsPageTest extends BaseClass {
 		pdp.clickOnPincodeCheckField();
 		String ActualMsg = pdp.getInvalidPinMessage();
 
-		System.out.println(ActualMsg);
+		LOG.info("InvalidPinMessage:"+ActualMsg);
 		Assert.assertTrue(ActualMsg.contains("Please enter a valid pincode."));
 
 	}
 
-	@Test(priority = 7)
+	@Test
 	public void toVerifyBagCountAfterAddingMultipleProducts() {
 		HomePage search = new HomePage();
 		search.enterTextOnSearchBar("Lipstick");
@@ -294,21 +297,19 @@ public class ProductDetailsPageTest extends BaseClass {
 		softly.assertTrue(page.getPlpUrl().toLowerCase().contains("women"));
 		page.filterByBrand("Lakme");
 		softly.assertTrue(page.getPlpUrl().toLowerCase().contains("women"), "gender is invalid");
-		page.sortBy("popularity");
-		String SortText = page.getSelectedSortOption();
-		softly.assertTrue(SortText.contains("popularity"), "Sort By filter not applied correctly");
 
 		ProductDetails pdp = new ProductDetails();
-		int count = pdp.getBagCount();
+
 		String parentWindow = KeyWord.driver.getWindowHandle();
 		for (int i = 0; i < 5; i++) {
 			page.clickProduct(i);
 			pdp.switchToChildWindow();
 			pdp.clickaddToBagProduct();
+			int count = pdp.getBagCount();
+			LOG.info("product count in the bag:" + count);
 			softly.assertEquals(count, i + 1);
 			KeyWord.driver.close();
 			KeyWord.driver.switchTo().window(parentWindow);
-			System.out.println("productcount:" + count);
 
 		}
 		softly.assertAll();

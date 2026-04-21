@@ -22,15 +22,7 @@ import com.myntra.basetest.KeyWord;
  * element); WaitFor.elementToBeClickaBle(driver, element);
  */
 public class WaitFor {
-//
-//	public static final WebDriverWait wait;
-//
-//	static {
-//		wait = new WebDriverWait(KeyWord.driver, Duration.ofSeconds(60));
-//		wait.pollingEvery(Duration.ofMillis(500));
-//		wait.ignoring(NoSuchElementException.class);
-//	}
-	
+
 	public static WebDriverWait getWait() {
 	    WebDriverWait wait =
 	        new WebDriverWait(KeyWord.driver, Duration.ofSeconds(60));
