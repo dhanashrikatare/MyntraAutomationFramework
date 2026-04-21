@@ -138,7 +138,6 @@ public class ProductListingTest extends BaseClass {
 	}
 
 	@Test
-
 	public void toVerifyProductCountChangesAfterFilter() {
 		HomePage srp = new HomePage();
 		srp.enterTextOnSearchBar("Lipsticks");
@@ -154,7 +153,6 @@ public class ProductListingTest extends BaseClass {
 	}
 
 	@Test
-
 	public void toVerifyUserCanClickOnAnyProduct() {
 		HomePage srp = new HomePage();
 
@@ -175,8 +173,6 @@ public class ProductListingTest extends BaseClass {
 
 
 	@Test
-
-
 	public void toVerifyClearAllFunctionalityOfFilterss() {
 		HomePage search = new HomePage();
 		search.enterTextOnSearchBar("lipsticks");
@@ -197,7 +193,7 @@ public class ProductListingTest extends BaseClass {
 
 
 
-	@Test()
+	@Test
 	public void toverifyBeautyPLP() {
 
 		HomePage srp = new HomePage();
