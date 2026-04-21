@@ -37,6 +37,9 @@ public class ProductListingPage {
 
 	@FindBy(xpath = "//ul[@class=\"FilterDirectory-list\"]/li")
 	List<WebElement> brandNames;
+	
+	@FindBy(xpath = "//p[@class=\"index-infoBig\"]")
+	WebElement CouldNotFindAnyMatches;
 
 	@FindBy(css = ".product-brand")
 	List<WebElement> productBrands;
@@ -325,6 +328,11 @@ public class ProductListingPage {
 		WaitFor.visibilityOfelement(sortButton);
 
 		return sortButton.getText().replace("Sort by :", "").trim();
+	}
+	
+	public String getCouldNotFindAnyMatchesText() {
+		WaitFor.visibilityOfelement(CouldNotFindAnyMatches);
+		return CouldNotFindAnyMatches.getText();
 	}
 
 	public void switchToChildWindow() {

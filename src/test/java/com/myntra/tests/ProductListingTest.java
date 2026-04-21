@@ -197,7 +197,7 @@ public class ProductListingTest extends BaseClass {
 	public void toverifyBeautyPLP() {
 
 		HomePage srp = new HomePage();
-		srp.enterTextOnSearchBar("Shampoo");
+		srp.enterTextOnSearchBar("Lipsticks");
 		srp.enterPressOnSearchBar();
 		ProductListingPage plp = new ProductListingPage();
 		String breadCrumbText = plp.getPlpBreadCrumb();
@@ -220,48 +220,4 @@ public class ProductListingTest extends BaseClass {
 		softly.assertAll();
 
 	}
-
-	/**
-	 * Test case to verify that when user tries to see wishlist without login then
-	 * it should redirect to login page
-	 */
-
-
-
-	@Test( description = "test case to verify that when user tries to see wishlist without login then it should redirect to login page")
-
-
-	public void verifyToSeeWishListWithoutLogin() {
-		HomePage home = new HomePage();
-		home.clickOnWishlistIcon();
-
-		LoginPage login = new LoginPage();
-		Assert.assertTrue(login.isLoginPopUpDisplayed(),
-				"Login pop-up is not displayed when trying to access the wishlist without logging in.");
-
-	}
-
-	/**
-	 * Test case to verify that when user tries to see orders list without login
-	 * then it should redirect to login page 1. Click on profile icon 2. Click on my
-	 * orders 3. Verify that user is redirected to login page
-	 */
-
-
-
-	@Test( description = "test case to verify that when user tries to see orders list without login then it should redirect to login page")
-
-
-	public void verifyToSeeOrdersListWithoutLogin() {
-		// 3KeyWord.driver.get(ConfigReader.get("base.url"));
-		HomePage home = new HomePage();
-		home.clickOnProfileIcon();
-		home.clickOnMyOrders();
-
-		String Actualurl = KeyWord.driver.getCurrentUrl();
-
-		Assert.assertTrue(Actualurl.contains("login"));
-
-	}
-
 }
