@@ -1,11 +1,16 @@
 package com.myntra.basetest;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
+import com.myntra.hooks.Hooks;
 import com.myntra.utils.ConfigReader;
 
 public class BaseClass {
+	
+	private static final Logger LOG = LogManager.getLogger(Hooks.class);
 
 	/**
 	 * BaseClass ─────────────── This is the base class that all test classes will
@@ -25,12 +30,15 @@ public class BaseClass {
 	@BeforeMethod
 	public void setUp() {
 		KeyWord.openBrowser();
+		LOG.info("Browser is opened..!");
 		KeyWord.openUrl();
+		LOG.info("Browser is opened..!");
 	}
 
-//	@AfterMethod
-//	public void tearDown() {
-//		KeyWord.closeBrowser();
-//	}
+	@AfterMethod
+	public void tearDown() {
+		KeyWord.closeBrowser();
+		LOG.info("Driver Quit successfully......!");
+	}
 
 }

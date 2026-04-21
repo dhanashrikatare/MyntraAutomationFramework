@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<<<<<<< Updated upstream
 <suite name="Suite" parallel="tests" >
   <test thread-count="5" name="Test">
     <classes>
@@ -8,3 +9,26 @@
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->
+=======
+<suite name="Suite" parallel="tests" verbose="2">
+    
+	<listeners>
+		<listener class-name="com.myntra.listener.MyListener"></listener>
+		<!-- Console summary listener to ensure a clear pass/fail/skip line appears in the console -->
+		<listener class-name="com.myntra.listener.ConsoleSummaryListener"></listener>
+	</listeners>
+	<test thread-count="1" name="Test">
+		<classes>
+			
+			<class name="com.myntra.tests.NavigationTests"/>
+			<class name="com.myntra.tests.HomepageTest"/>
+			<class name="com.myntra.tests.ProductListingTest" />
+			<class name="com.myntra.tests.ProductDetailsPageTest"/>
+			<class name="com.myntra.tests.CartPageTest"/>
+
+		</classes>
+	</test> <!--
+	Test -->
+</suite> <!--
+Suite -->
+>>>>>>> Stashed changes
