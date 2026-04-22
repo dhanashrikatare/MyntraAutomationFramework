@@ -228,6 +228,7 @@ public class ProductDetailsPageTestSteps {
 			plp.clickProduct(i);
 			pdp.switchToChildWindow();
 			pdp.clickaddToBagProduct();
+			WaitFor.pageLoaded();
 			int count = pdp.getBagCount();
 			LOG.info("product count in the bag:" + count);
 			softly.assertEquals(count, i + 1);

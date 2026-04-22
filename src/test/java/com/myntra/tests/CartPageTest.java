@@ -3,6 +3,8 @@ package com.myntra.tests;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -12,10 +14,11 @@ import com.myntra.pages.AddToCartPage;
 import com.myntra.pages.HomePage;
 import com.myntra.pages.ProductDetails;
 import com.myntra.pages.ProductListingPage;
+import com.myntra.stepdefine.CartPageTestSteps;
 import com.myntra.utils.ConfigReader;
 
 public class CartPageTest extends BaseClass {
-
+	private static final Logger LOG = LogManager.getLogger(CartPageTest.class);
 	SoftAssert softly = new SoftAssert();
 
 	@Test
@@ -28,8 +31,8 @@ public class CartPageTest extends BaseClass {
 		ProductListingPage plp = new ProductListingPage();
 		String expectedProductBrand = plp.getProductBrand(2);
 		int expectedProductPrice = plp.getProductPrice(2);
-		System.out.println(expectedProductPrice);
-		System.out.println(expectedProductBrand);
+		LOG.info(expectedProductPrice);
+		LOG.info(expectedProductBrand);
 		plp.clickProduct(2);
 		plp.switchToChildWindow();
 		ProductDetails pdp = new ProductDetails();
