@@ -1,5 +1,7 @@
 package com.myntra.tests;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 
 import org.testng.annotations.Test;
@@ -8,6 +10,7 @@ import org.testng.asserts.SoftAssert;
 import com.myntra.basetest.BaseClass;
 import com.myntra.basetest.KeyWord;
 import com.myntra.dataprovider.MyntraSearchTest;
+import com.myntra.hooks.Hooks;
 import com.myntra.pages.BeautyPage;
 import com.myntra.pages.HomePage;
 import com.myntra.pages.LoginPage;
@@ -20,7 +23,10 @@ import com.myntra.utils.ConfigReader;
  * invalid product searches with special characters.
  */
 
+
 public class HomepageTest extends BaseClass {
+	private static final Logger LOG = LogManager.getLogger(HomepageTest.class);
+	SoftAssert softAssert = new SoftAssert();
 
 	@Test(dataProvider = "searchData", dataProviderClass = MyntraSearchTest.class, description = "test case to verify search functionality with valid products")
 	public void verifySearchResultsForValidBeautyProducts(String product) {
@@ -94,7 +100,7 @@ public class HomepageTest extends BaseClass {
 	public void verifySuggestionsDisplayedWhileTyping() {
 		HomePage search = new HomePage();
 		search.enterTextOnSearchBar("Lip");
-		SoftAssert softAssert = new SoftAssert();
+		
 
 		softAssert.assertTrue(search.getCountOfSearchResults() > 0,
 				"Search suggestions should be displayed while typing.");
@@ -135,11 +141,14 @@ public class HomepageTest extends BaseClass {
 		// 3KeyWord.driver.get(ConfigReader.get("base.url"));
 		HomePage home = new HomePage();
 		home.clickOnProfileIcon();
+		LOG.info("Successfully click on ProfileIcon");
 		home.clickOnMyOrders();
-
+		LOG.info("Successfully click On ordersIcon");
 		String Actualurl = KeyWord.driver.getCurrentUrl();
 
 		Assert.assertTrue(Actualurl.contains("login"));
+		LOG.info("user redirected on the login page when Tries to see orders ist without login");
+
 
 	}
 

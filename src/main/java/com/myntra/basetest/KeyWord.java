@@ -87,10 +87,10 @@ public class KeyWord {
 
 	}
 
-	public static void typeAndEnter(WebElement element, String text) {
+	public static void Enter(WebElement element) {
 		WaitFor.visibilityOfelement(element);
 		element.clear();
-		type(element, text);
+		//type(element, text);
 		element.sendKeys(Keys.ENTER);
 
 	}

@@ -84,12 +84,13 @@ public class HomePage {
 	public void enterTextOnSearchBar(String text) {
 		WaitFor.visibilityOfelement(searchResultsHeader);
 		WaitFor.elementToBeClickaBle(searchResultsHeader);
-		searchResultsHeader.sendKeys(text);
+		KeyWord.type(searchResultsHeader, text);
+		//searchResultsHeader.sendKeys(text);
 	}
 	
 	public void enterPressOnSearchBar() {
 		WaitFor.visibilityOfelement(searchResultsHeader);
-		KeyWord.typeAndEnter(searchResultsHeader, "");
+		KeyWord.Enter(searchResultsHeader);
 //		searchResultsHeader.sendKeys(Keys.ENTER);
 	}
 
