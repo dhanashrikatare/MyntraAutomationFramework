@@ -8,7 +8,6 @@
 Feature:
 Homepage functionality
 
-
 #positive Scenario 1
 @SearchFunctionality
 Scenario Outline::
@@ -86,3 +85,4 @@ When user click on orders List without login
 Then user should redirected on the login page
 
 
+                              

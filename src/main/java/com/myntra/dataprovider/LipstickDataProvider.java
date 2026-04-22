@@ -11,7 +11,6 @@ public class LipstickDataProvider {
 	@DataProvider(name="brandData")
 	public static Object[][] readExcelOfLip_Brands() throws IOException {
 		return ExcelReader.readExcel(0);
-	
 	}
 	
 	@DataProvider(name="pincodeData")
