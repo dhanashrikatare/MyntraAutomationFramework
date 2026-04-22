@@ -58,7 +58,7 @@ Scenario:
 test case to verify search functionality with invalid products
 
 When user enters giberish text to search product
-Then user cannot see beauty product 
+Then user cannot see product 
 
 #Negative Scenario 4
 @SuggestionDisplay
