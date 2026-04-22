@@ -4,6 +4,8 @@ import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -82,4 +84,15 @@ public class WaitFor {
 		getWait().until(ExpectedConditions.stalenessOf(KeyWord.driver.findElement(locator)));
 	}
 
+	public static void pageLoaded() {
+	    WebDriverWait wait = getWait();
+
+	    wait.until(webDriver ->
+	        ((JavascriptExecutor) KeyWord.driver)
+	            .executeScript("return document.readyState")
+	            .toString()
+	            .equals("complete")
+	    );
+	}
+	
 }

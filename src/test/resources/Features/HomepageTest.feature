@@ -1,8 +1,17 @@
+# Feature: Homepage functionality
+#
+# As a customer visiting the Myntra homepage I want to be able to
+# - search for products (with autosuggestions)
+# - handle invalid search inputs (special characters, numbers, gibberish)
+# - access wishlist and orders (which should redirect to login when not signed in)
+#
 Feature:
+Homepage functionality
+
 
 #positive Scenario 1
 @SearchFunctionality
-Scenario:
+Scenario Outline::
 test case to verify search functionality with valid products
 
 When user search for the Various "<product>"
@@ -27,11 +36,11 @@ Examples:
   | eyeshadow    |
 
 #Negative Scenario 1
-
+@SpecialCharInvalid
 Scenario:
 test case to verify search functionality with invalid products with special characters
 
-When user enters special character to search product "@#$%^&*()"
+When user enters special character to search product
 Then user cannot find the Beauty Products
 
 
@@ -40,35 +49,36 @@ Then user cannot find the Beauty Products
 Scenario:
 test case to verify search functionality with invalid numbers
 
-When user enters numbers to search products "48964596186"
+When user enters numbers to search products 
 Then user cannot find any matches
 
 #Negative Scenario 3
-
+@InvalidKeyWord
 Scenario:
 test case to verify search functionality with invalid products
 
-When user enters giberish text to search product "xyzabc99999nonsense"
-Then usser cannot see beauty product 
+When user enters giberish text to search product
+Then user cannot see beauty product 
 
 #Negative Scenario 4
-
+@SuggestionDisplay
 Scenario:
 test case to verify search suggestions are displayed while typing
 
-When user enters some keyword to search "Lip"
+When user enters some keyword to search
 Then user should see the autosuggestions
 
 #Negative Scenario 5
-
+@WishListWithoutLogin
 Scenario:
 test case to verify that when user tries to see wishlist without login then it should redirect to login page
 
 When user click on wishlist icon without login 
-Then user should redirected on the login page 
+Then user should be on the login page 
 
 #Negative Scenario 6
 
+@OrdersListWithoutLogin
 Scenario:
 test case to verify that when user tries to see orders list without login then it should redirect to login page
 

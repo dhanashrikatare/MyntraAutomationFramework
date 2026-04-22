@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import static com.myntra.basetest.KeyWord.*;
 import com.myntra.pages.ProductListingPage;
+import com.myntra.utils.WaitFor;
 import com.myntra.pages.LoginPage;
 
 public class ProductDetailsPageTest extends BaseClass {
@@ -60,7 +61,16 @@ public class ProductDetailsPageTest extends BaseClass {
 		System.out.println("passed successfully");
 	}
 
-	@Test
+	/**
+	 * Verifies that the Product Details Page (PDP) corresponds to the product
+	 * selected on the Product Listing Page (PLP).
+	 *
+	 * Test steps: 1. Search for 'lipsticks' and open the first product from PLP. 2.
+	 * Switch to the newly opened product tab. 3. Assert PDP elements relate to the
+	 * selected product: breadcrumb/brand text contains the expected product, price
+	 * is visible, and wishlist/add-to-bag controls are present.
+	 */
+	@Test(description = "Verify PDP corresponds to the product selected on PLP: checks breadcrumb/brand match, price visibility, wishlist and add-to-bag buttons")
 	public void toVerifyProductOnProductDetailsPageIsRelatedToTheProductSelectedOnProductListingPage()
 			throws InterruptedException {
 		HomePage search = new HomePage();
@@ -129,7 +139,7 @@ public class ProductDetailsPageTest extends BaseClass {
 		// Click Add to Bag and verify Go To Bag button appears
 		pdp.clickaddToBagProduct();
 
-		softly.assertTrue(pdp.isGotoBagIsVisible(), "Go To Bag button did not appear after adding product to bag.");
+		Assert.assertTrue(pdp.isGotoBagIsVisible(), "Go To Bag button did not appear after adding product to bag.");
 		softly.assertAll();
 	}
 
@@ -187,11 +197,17 @@ public class ProductDetailsPageTest extends BaseClass {
 
 		ProductListingPage page = new ProductListingPage();
 		page.filterByGender("Women");
+		WaitFor.pageLoaded();
 		page.filterByBrand("Lakme");
+		WaitFor.pageLoaded();
 		page.sortBy("popularity");
+		WaitFor.pageLoaded();
 		page.filterByColour("Pink");
+		WaitFor.pageLoaded();
 		page.filterByDiscountRange("30% and above");
+		WaitFor.pageLoaded();
 		page.clickProduct(2);
+		WaitFor.pageLoaded();
 		KeyWord.switchToNewTab();
 
 		ProductDetails pdp = new ProductDetails();
@@ -229,10 +245,6 @@ public class ProductDetailsPageTest extends BaseClass {
 			}
 
 			// ensure we got some response for this attempt; otherwise log and continue
-			if (!gotResponse) {
-				LOG.info("No response seen for pincode: " + randomPin + " (attempt " + i + ")");
-			}
-
 			// if a response appeared, click change to allow next pincode entry (safe-guard)
 			try {
 				pdp.clickChangeButton();
@@ -266,23 +278,32 @@ public class ProductDetailsPageTest extends BaseClass {
 
 		ProductListingPage page = new ProductListingPage();
 		page.filterByGender("Women");
+		WaitFor.pageLoaded();
 		page.filterByBrand("Lakme");
+		WaitFor.pageLoaded();
 		page.sortBy("popularity");
-
-		page.filterByColour("Pink");
-
+		WaitFor.pageLoaded();
+		page.filterByProductColour("Pink");
+		WaitFor.pageLoaded();
 		page.filterByDiscountRange("30% and above");
-
+		WaitFor.pageLoaded();
 		page.clickProduct(2);
 		KeyWord.switchToNewTab();
 
 		ProductDetails pdp = new ProductDetails();
-		pdp.clickOnPincodeButton();
-		pdp.clickOnPincodeCheckField();
-		String ActualMsg = pdp.getInvalidPinMessage();
+		pdp.clickaddToBagProduct();
+		softly.assertTrue(pdp.isGotoBagIsVisible(), "go to bag is not visible");
+		pdp.clickGoToBag();
+		LOG.info("click on goto bag to redirect on the cart page");
 
-		LOG.info("InvalidPinMessage:"+ActualMsg);
-		Assert.assertTrue(ActualMsg.contains("Please enter a valid pincode."));
+		AddToCartPage cart = new AddToCartPage();
+		cart.clickOnPincodeButton();
+		cart.clickOnPincodeCheckField();
+		String ActualMsg = cart.getErrorMsg();
+
+		LOG.info("InvalidPinMessage:" + ActualMsg);
+		softly.assertTrue(ActualMsg.contains("Please enter a valid pincode."));
+		softly.assertAll();
 
 	}
 
