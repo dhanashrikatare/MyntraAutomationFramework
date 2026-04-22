@@ -317,7 +317,7 @@ public class ProductDetailsPageTest extends BaseClass {
 		page.filterByGender("Women");
 		softly.assertTrue(page.getPlpUrl().toLowerCase().contains("women"));
 		page.filterByBrand("Lakme");
-		softly.assertTrue(page.getPlpUrl().toLowerCase().contains("women"), "gender is invalid");
+		softly.assertTrue(page.getPlpUrl().toLowerCase().contains("lakme"), "brand is invalid");
 
 		ProductDetails pdp = new ProductDetails();
 

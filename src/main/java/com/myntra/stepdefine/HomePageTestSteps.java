@@ -41,7 +41,7 @@ public class HomePageTestSteps {
 		String title = plp.getPlpTitle();
 		softAssert.assertTrue(AcrtualUrl.toLowerCase().contains(visibleProducts.toLowerCase()));
 		softAssert.assertTrue(title.toLowerCase().contains(visibleProducts.toLowerCase()));
-		LOG.info("products are displayed");
+		LOG.info("products are displayed...!!!!");
 
 	}
 
@@ -81,7 +81,7 @@ public class HomePageTestSteps {
 		search.enterPressOnSearchBar();
 	}
 
-	@Then("user cannot see beauty product")
+	@Then("user cannot see product")
 	public void resultForGiberishSearch() {
 
 		Assert.assertTrue(beauty.areProductsVisible(), "on invalid search products are display which is wrong");

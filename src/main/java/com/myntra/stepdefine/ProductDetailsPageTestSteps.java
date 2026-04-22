@@ -1,5 +1,8 @@
 package com.myntra.stepdefine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
@@ -7,6 +10,7 @@ import org.testng.asserts.SoftAssert;
 
 import com.myntra.basetest.KeyWord;
 import com.myntra.hooks.Hooks;
+import com.myntra.pages.AddToCartPage;
 import com.myntra.pages.HomePage;
 import com.myntra.pages.LoginPage;
 import com.myntra.pages.ProductDetails;
@@ -27,6 +31,7 @@ public class ProductDetailsPageTestSteps {
 	ProductListingPage plp = new ProductListingPage();
 	ProductDetails pdp = new ProductDetails();
 	String expected;
+	AddToCartPage cart = new AddToCartPage();
 
 	@Given("User searches For The beauty Product")
 	public void searchBeautyProducts() {
@@ -37,9 +42,9 @@ public class ProductDetailsPageTestSteps {
 	@When("user click on the product on plp page")
 	public void productListingPageOpens() {
 		expected = plp.getProductText(1);
-		LOG.info("expected text of product:"+expected);
+		LOG.info("expected text of product:" + expected);
 		plp.clickProduct(1);
-		LOG.info("click second product:"+expected);
+		LOG.info("click second product:" + expected);
 	}
 
 	@And("product details page opens")
@@ -53,10 +58,10 @@ public class ProductDetailsPageTestSteps {
 	@Then("that product should be display in the product details page and product details page opened.")
 	public void productShouldBeDisplayOnPdp() {
 		String actual = pdp.getBrandName();
-		LOG.info("Actual brand of product:"+actual);
+		LOG.info("Actual brand of product:" + actual);
 
 		String ActualResult = pdp.getTextOfBreadcrumb();
-		LOG.info("Actual breadcrumb of product:"+ActualResult);
+		LOG.info("Actual breadcrumb of product:" + ActualResult);
 		softly.assertTrue(
 				ActualResult.toLowerCase().contains(expected) || ActualResult.toLowerCase().contains("lipstick"),
 				"Breadcrumb does not contain 'beauty' or 'lipstick'. Actual breadcrumb: " + ActualResult);
@@ -109,23 +114,23 @@ public class ProductDetailsPageTestSteps {
 		pdp.clickOnwishListButton();
 		LOG.info("user click on wishlist button to add product to wishlist without login:");
 		// Verify login prompt appears (user must login to save wishlist)
-		
-		
+
 	}
+
 	@And("user applies some filter to select product")
 	public void applyMultipleFilters() {
-		
+
 		plp.filterByGender("Women");
 		WaitFor.pageLoaded();
 		plp.filterByBrand("Lakme");
 		WaitFor.pageLoaded();
 		plp.sortBy("popularity");
 		WaitFor.pageLoaded();
-		plp.filterByColour("Pink");
+		plp.filterByProductColour("Pink");
 		WaitFor.pageLoaded();
 		plp.filterByDiscountRange("30% and above");
 		WaitFor.pageLoaded();
-		
+
 	}
 
 	@Then("user on the login page")
@@ -142,16 +147,96 @@ public class ProductDetailsPageTestSteps {
 		softly.assertAll();
 		LOG.info("user on the login page....!!!!");
 	}
-	@And("user enters pincodes")
+
+	@Then("user enters pincodes check for the message for entered pincode")
 	public void userEntersPincode() {
-		
+		pdp.clickOnPincodeButton();
+
+		List<String> invalidPinCodes = new ArrayList();
+		List<String> validPinCodes = new ArrayList<>();
+
+		int maxAttempts = 10;
+		for (int i = 0; i < maxAttempts; i++) {
+			String randomPin = pdp.generateRandomPin(); // returns 6-digit string
+			pdp.enterPincode(randomPin);
+			pdp.clickOnPincodeCheckField();
+
+			// Poll for up to ~5 seconds for either a delivery or invalid message
+			boolean gotResponse = false;
+			int retries = 0;
+			while (retries < 10 && !gotResponse) {
+				if (pdp.isDeliveryAvailable()) {
+					String deliveryMsg = pdp.getDeliveryAvailableMessage();
+					// verify expected delivery message content
+					Assert.assertTrue(deliveryMsg != null && deliveryMsg.contains("Get it by"),
+							"Expected delivery available message not shown for valid pincode: " + randomPin
+									+ ". Actual: " + deliveryMsg);
+					validPinCodes.add(randomPin);
+					gotResponse = true;
+				} else if (pdp.isInvalidPinMessageDisplayed()) {
+					invalidPinCodes.add(randomPin);
+					// optional: assert invalid message text, or just note it
+					gotResponse = true;
+				} else {
+					KeyWord.waitForSeconds(500);
+					retries++;
+				}
+			}
+
+			// ensure we got some response for this attempt; otherwise log and continue
+			// if a response appeared, click change to allow next pincode entry (safe-guard)
+			try {
+				pdp.clickChangeButton();
+			} catch (Exception e) {
+				// ignore if not displayed
+			}
+		}
+
+		Assert.assertTrue(!invalidPinCodes.isEmpty() || !validPinCodes.isEmpty(),
+				"No responses observed for any pincodes tried. Tried up to " + maxAttempts + " pins.");
+
+		// Optional: print results
+		LOG.info("Invalid pins found: " + invalidPinCodes);
+		LOG.info("Valid pins found: " + validPinCodes);
+
 	}
 
+	@And("user leaves pincode field as empty and click on check button")
+	public void leavePincodeFieldBlank() {
+		pdp.clickaddToBagProduct();
+		softly.assertTrue(pdp.isGotoBagIsVisible(), "go to bag is not visible");
+		pdp.clickGoToBag();
+		LOG.info("click on goto bag to redirect on the cart page");
 
-	@Then("user should see the messages for he valid and invalid pincode")
-	public void shouldSeeMessageForThePincode() {
+		cart.clickOnPincodeButton();
+		cart.clickOnPincodeCheckField();
+	}
 
+	@Then("user should see error message for that")
+	public void seeErrorMsg() {
+		String ActualMsg = cart.getErrorMsg();
 
+		LOG.info("InvalidPinMessage:" + ActualMsg);
+		softly.assertTrue(ActualMsg.contains("Please enter a valid pincode."));
+		softly.assertAll();
+	}
+	@Then("user click on add multiple products to bag and see the behaviour")
+	public void addProductToCartMultipleTimesAndCheckTheBagCount() {
 
-}
+		String parentWindow = KeyWord.driver.getWindowHandle();
+		for (int i = 0; i < 5; i++) {
+			plp.clickProduct(i);
+			pdp.switchToChildWindow();
+			pdp.clickaddToBagProduct();
+			int count = pdp.getBagCount();
+			LOG.info("product count in the bag:" + count);
+			softly.assertEquals(count, i + 1);
+			KeyWord.driver.close();
+			KeyWord.driver.switchTo().window(parentWindow);
+
+		}
+		softly.assertAll();
+		
+	}
+	
 }
