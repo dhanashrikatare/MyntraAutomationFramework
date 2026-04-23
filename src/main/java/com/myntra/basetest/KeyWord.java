@@ -211,5 +211,9 @@ public class KeyWord {
 		return driver.findElement(locator);
 	}
 
-	
+	public static void hover(WebElement womenMenu) {
+		Actions action = new Actions(driver);
+		action.moveToElement(womenMenu).perform();
+
+	}
 }

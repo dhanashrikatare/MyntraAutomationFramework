@@ -2,20 +2,24 @@
 <testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2026-04-15T15:02:42 IST" name="Default suite" finished-at="2026-04-15T15:03:22 IST" duration-ms="40068">
+  <suite started-at="2026-04-23T10:52:37 IST" name="Default suite" finished-at="2026-04-23T10:52:45 IST" duration-ms="8606">
     <groups>
     </groups>
-    <test started-at="2026-04-15T15:02:42 IST" name="Default test" finished-at="2026-04-15T15:03:22 IST" duration-ms="40068">
-      <class name="com.myntra.endtoend.tstcase.EndToEnd">
-        <test-method is-config="true" signature="setUp()[pri:0, instance:com.myntra.endtoend.tstcase.EndToEnd@7586beff]" started-at="2026-04-15T15:02:42 IST" name="setUp" finished-at="2026-04-15T15:02:52 IST" duration-ms="10589" status="PASS">
+    <test started-at="2026-04-23T10:52:37 IST" name="Default test" finished-at="2026-04-23T10:52:45 IST" duration-ms="8606">
+      <class name="com.myntra.tests.HomepageTest">
+        <test-method is-config="true" signature="setUp()[pri:0, instance:com.myntra.tests.HomepageTest@76a2ddf3]" started-at="2026-04-23T10:52:37 IST" name="setUp" finished-at="2026-04-23T10:52:42 IST" duration-ms="5028" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method signature="verifyPlaceOrderWithoutLogin()[pri:0, instance:com.myntra.endtoend.tstcase.EndToEnd@7586beff]" started-at="2026-04-15T15:02:52 IST" name="verifyPlaceOrderWithoutLogin" finished-at="2026-04-15T15:03:22 IST" duration-ms="29388" status="PASS">
+        <test-method signature="verifyIndianAndFusionWearMenuNavigation()[pri:0, instance:com.myntra.tests.HomepageTest@76a2ddf3]" started-at="2026-04-23T10:52:42 IST" name="verifyIndianAndFusionWearMenuNavigation" finished-at="2026-04-23T10:52:45 IST" duration-ms="3248" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- verifyPlaceOrderWithoutLogin -->
-      </class> <!-- com.myntra.endtoend.tstcase.EndToEnd -->
+        </test-method> <!-- verifyIndianAndFusionWearMenuNavigation -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.myntra.tests.HomepageTest@76a2ddf3]" started-at="2026-04-23T10:52:45 IST" name="tearDown" finished-at="2026-04-23T10:52:45 IST" duration-ms="295" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.myntra.tests.HomepageTest -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

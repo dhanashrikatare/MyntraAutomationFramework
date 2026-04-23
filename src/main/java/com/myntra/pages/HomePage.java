@@ -55,6 +55,14 @@ public class HomePage {
 	@FindBy(xpath = "//p[@class=\"index-infoBig\"]")
 	WebElement CouldNotFindAnyMatches;
 	
+	// women menu
+		@FindBy(xpath = "//a[@data-group=\"women\"]")
+		WebElement womenMenu;
+		
+		@FindBy(xpath = "//a[text()='Indian & Fusion Wear']")
+		WebElement indianFusionWear;
+		
+	
 	{
 		PageFactory.initElements(KeyWord.driver, this);
 	}
@@ -155,7 +163,19 @@ public class HomePage {
 		wishlistIcon.click();
 	}
 	
+	public boolean isWomenMenuDisplayed() {
+		return womenMenu.isDisplayed();
+	}
 	
+	public void hoverOnWomenMenu() {
+		WaitFor.elementToBeClickable(womenMenu);
+		KeyWord.hover(womenMenu);
+	}
+	
+	public void clickIndianFusionWear() {
+		WaitFor.elementToBeClickable(indianFusionWear);
+		indianFusionWear.click();
+	}
 	
 	
 
