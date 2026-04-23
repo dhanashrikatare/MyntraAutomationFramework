@@ -83,6 +83,10 @@ public class WaitFor {
 	public static void untilElementGotStale(By locator) {
 		getWait().until(ExpectedConditions.stalenessOf(KeyWord.driver.findElement(locator)));
 	}
+	
+	public static void elementToBeClickable(WebElement element) {
+		getWait().until(ExpectedConditions.elementToBeClickable(element));
+	}
 
 	public static void pageLoaded() {
 	    WebDriverWait wait = getWait();

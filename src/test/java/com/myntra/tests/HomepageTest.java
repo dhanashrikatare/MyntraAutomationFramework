@@ -1,5 +1,7 @@
 package com.myntra.tests;
 
+import static com.myntra.basetest.KeyWord.driver;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
@@ -151,7 +153,34 @@ public class HomepageTest extends BaseClass {
 
 
 	}
+	
+	//----------------------Womens Module----------------------
+	
+	@Test
+	public void verifyHomePageLoadsSuccessfully() {
 
+		driver.get(ConfigReader.get("base.url"));
+		String currentUrl = driver.getCurrentUrl();
+		Assert.assertTrue(currentUrl.contains("myntra"), "Home page not loaded");
+	}
+
+	@Test
+	public void verifyWomenMenuDisplayed() {
+
+		HomePage home = new HomePage();
+		Assert.assertTrue(home.isWomenMenuDisplayed(), "Women menu is not displayed");
+	}
+	
+
+	@Test
+	public void verifyIndianAndFusionWearMenuNavigation() {
+
+		HomePage home = new HomePage();
+		home.hoverOnWomenMenu();
+		home.clickIndianFusionWear();
+		String currentUrl = driver.getCurrentUrl();
+		Assert.assertTrue(currentUrl.contains("fusion-wear"), "Indian and Fusion Wear section not opened");
+	}
 }
 
 
