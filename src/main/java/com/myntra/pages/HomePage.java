@@ -85,13 +85,13 @@ public class HomePage {
 		WaitFor.visibilityOfelement(searchResultsHeader);
 		WaitFor.elementToBeClickaBle(searchResultsHeader);
 		KeyWord.type(searchResultsHeader, text);
-		//searchResultsHeader.sendKeys(text);
+		
 	}
 	
 	public void enterPressOnSearchBar() {
 		WaitFor.visibilityOfelement(searchResultsHeader);
 		KeyWord.Enter(searchResultsHeader);
-//		searchResultsHeader.sendKeys(Keys.ENTER);
+//		
 	}
 
 	public boolean areProductSearchingListDisplayed() {
@@ -103,11 +103,6 @@ public class HomePage {
 		return false;
 	}
 
-
-
-	{
-		PageFactory.initElements(driver, this);
-	}
 
 	public boolean isMyntraLogoDisplayed() {
 		WaitFor.visibilityOfelement(myntraLogo);

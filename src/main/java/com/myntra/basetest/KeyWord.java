@@ -129,7 +129,6 @@ public class KeyWord {
 
 	public static void clickOn(By element) {
 		driver.findElement(element).click();
-		;
 
 	}
 
@@ -206,10 +205,5 @@ public class KeyWord {
 
 	}
 	
-	//For Kids
-	public static WebElement getElement(By locator) {
-		return driver.findElement(locator);
-	}
-
 	
 }

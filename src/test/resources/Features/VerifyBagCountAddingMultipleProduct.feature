@@ -1,5 +1,5 @@
 Feature:
-
+ add multiple products to cart functionality
   Background:
     Given User searches For The beauty Product
 

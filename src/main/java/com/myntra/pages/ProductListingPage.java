@@ -37,7 +37,7 @@ public class ProductListingPage {
 
 	@FindBy(xpath = "//ul[@class=\"FilterDirectory-list\"]/li")
 	List<WebElement> brandNames;
-	
+
 	@FindBy(xpath = "//p[@class=\"index-infoBig\"]")
 	WebElement CouldNotFindAnyMatches;
 
@@ -161,18 +161,6 @@ public class ProductListingPage {
 
 	}
 
-	// Apply Boys filter
-	public void selectBoysFilter() {
-
-		getElement(boys_filter).click();
-
-	}
-
-	// Apply Girls filter
-	public void selectGirlsFilter() {
-		getElement(girls_filter).click();
-	}
-
 	public void filterByProductColour(String colour) {
 
 		KeyWord.scrollToElement();
@@ -187,16 +175,17 @@ public class ProductListingPage {
 		WaitFor.elementToBeClickaBle(colourOption);
 
 		KeyWord.clickOn(colourOption);
+		waitForSeconds(2000);
 
 	}
 
 	public void filterByDiscountRange(String range) {
 
-//		KeyWord.scrollWindow();
 		for (WebElement ranges : DiscountRange) {
 			if (ranges.getText().trim().equalsIgnoreCase(range)) {
 				PageFactory.initElements(KeyWord.driver, this);
 				KeyWord.clickOn(ranges);
+				waitForSeconds(2000);
 				return;
 			}
 		}
@@ -214,6 +203,7 @@ public class ProductListingPage {
 		WaitFor.visibilityOfelement(brandOption);
 		WaitFor.elementToBeClickaBle(brandOption);
 		KeyWord.clickOn(brandOption);
+		waitForSeconds(2000);
 	}
 
 	public void filterByColour(String colour) {
@@ -229,12 +219,6 @@ public class ProductListingPage {
 
 		}
 		throw new RuntimeException("colour option not found: " + colour);
-
-//		KeyWord.clickOn(colourSearchBar);
-//		KeyWord.type(KeyWord.driver.findElement(colourInputSearchBox), colour);
-//		
-//		By colourOption=By.xpath("//li[@class=\"colour-listItem\"]");
-//		KeyWord.clickOn(colourOption);
 	}
 
 	public void filterByGender(String genderName) {
@@ -282,6 +266,7 @@ public class ProductListingPage {
 
 	public void clearAllFilters() {
 		KeyWord.clickOn(clearAllButton);
+		 waitForSeconds(2000);
 	}
 
 	public List<String> getAllProductsColours() {
@@ -311,6 +296,20 @@ public class ProductListingPage {
 		return true;
 	}
 
+	public boolean verifyProductsBelongToBrand(String expectedBrand) {
+
+		List<WebElement> productBrands = driver.findElements(By.xpath("//h3[contains(@class,'product-brand')]"));
+
+		for (WebElement brand : productBrands) {
+			String actualBrand = brand.getText().trim().toLowerCase();
+
+			if (!actualBrand.contains(expectedBrand.toLowerCase())) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public boolean isBrandFilterApplied(String string) {
 		for (WebElement brand : productBrands) {
 			String actualBrand = brand.getText().trim();
@@ -329,7 +328,7 @@ public class ProductListingPage {
 
 		return sortButton.getText().replace("Sort by :", "").trim();
 	}
-	
+
 	public String getCouldNotFindAnyMatchesText() {
 		WaitFor.visibilityOfelement(CouldNotFindAnyMatches);
 		return CouldNotFindAnyMatches.getText();
@@ -359,10 +358,8 @@ public class ProductListingPage {
 		for (WebElement discount : discountLabels) {
 			String text = discount.getText();
 
-
 			String numbersOnly = text.replaceAll("[^0-9]", "");
 			System.out.println(numbersOnly);
-
 
 			if (!numbersOnly.isEmpty()) {
 

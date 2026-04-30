@@ -1,5 +1,7 @@
 package com.myntra.tests;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
@@ -15,7 +17,7 @@ import com.myntra.basetest.BaseClass;
 import com.myntra.basetest.KeyWord;
 import com.myntra.dataprovider.LipstickDataProvider;
 import com.myntra.dataprovider.MyntraSearchTest;
-
+import com.myntra.hooks.Hooks;
 import com.myntra.listener.MyListener;
 
 import com.myntra.pages.HomePage;
@@ -29,7 +31,7 @@ import com.myntra.utils.WaitFor;
 @Listeners(MyListener.class)
 
 public class ProductListingTest extends BaseClass {
-
+	private static final Logger LOG = LogManager.getLogger(ProductListingTest.class);
 	SoftAssert softly = new SoftAssert();
 
 	@Test(description = "test case to verify PLP page display after valid product search")
@@ -46,7 +48,7 @@ public class ProductListingTest extends BaseClass {
 		softly.assertTrue(title.toLowerCase().contains("shampoo"), "Page title does not contain Shampoo");
 		softly.assertTrue(plp.getProductCount() > 0, "No products displayed on PLP");
 		softly.assertAll();
-		System.out.println("Products are Displayed..");
+		LOG.info("Products are Displayed..");
 	}
 
 	@Test(description = "test case to verify brand filter functionality on PLP page", dataProvider = "brandData", dataProviderClass = LipstickDataProvider.class)
@@ -63,7 +65,7 @@ public class ProductListingTest extends BaseClass {
 		Assert.assertTrue(ActualUrl.toLowerCase().contains(brand.toLowerCase()),
 				"URL does not contain the applied brand filter");
 
-		System.out.println("Brand filter applied successfully..");
+		LOG.info("Brand filter applied successfully..");
 	}
 
 	@Test(description = "test case to verify colour filter functionality on PLP page", dataProvider = "colourDataForLipstick", dataProviderClass = MyntraSearchTest.class)
@@ -81,7 +83,7 @@ public class ProductListingTest extends BaseClass {
 		Assert.assertTrue(ActualUrl.toLowerCase().contains(colour.toLowerCase()),
 				"URL does not contain the applied colour filter");
 
-		System.out.println("Colour filter applied successfully..");
+		LOG.info("Colour filter applied successfully..");
 
 	}
 
@@ -97,7 +99,7 @@ public class ProductListingTest extends BaseClass {
 
 		String SortText = plp.getSelectedSortOption();
 		Assert.assertTrue(SortText.contains(sortByOption), "Sort By filter not applied correctly");
-		System.out.println("Sort By filter applied successfully..");
+		LOG.info("Sort By filter applied successfully..");
 
 	}
 
@@ -113,14 +115,14 @@ public class ProductListingTest extends BaseClass {
 
 		waitForSeconds(2000);
 		int minDiscount = Integer.parseInt(discountRange.replace("% and above", "").trim());
-		System.out.println(minDiscount);
+		LOG.info(minDiscount);
 
 		List<Integer> discounts = plp.getAllProductsDiscountPercentages();
 		for (Integer discount : discounts) {
 			Assert.assertTrue(discount >= minDiscount, "Invalid Discount Found..." + discount);
 		}
 
-		System.out.println("Discount filter applied successfully..");
+		LOG.info("Discount filter applied successfully..");
 
 	}
 
@@ -170,8 +172,6 @@ public class ProductListingTest extends BaseClass {
 
 	}
 
-
-
 	@Test
 	public void toVerifyClearAllFunctionalityOfFilterss() {
 		HomePage search = new HomePage();
@@ -180,18 +180,22 @@ public class ProductListingTest extends BaseClass {
 
 		ProductListingPage plp = new ProductListingPage();
 		plp.filterByBrand("Maybelline");
+		WaitFor.pageLoaded();
 		plp.filterByProductColour("red");
+		WaitFor.pageLoaded();
 		int beforeFilterClearCount = plp.getProductCounts();
+		LOG.info("before filter clear count:" + beforeFilterClearCount);
+
 		plp.clearAllFilters();
 		int AfterClearFilterCount = plp.getProductCounts();
+		LOG.info("after filter clear count:" + AfterClearFilterCount);
+
 		String url = plp.getPlpUrl();
 
 		softly.assertFalse(url.contains("f="), "Filter query still present in URL");
 		softly.assertTrue(beforeFilterClearCount <= AfterClearFilterCount,
 				"after clearing filters no products are displayed which is wrong");
 	}
-
-
 
 	@Test
 	public void toverifyBeautyPLP() {
@@ -204,10 +208,10 @@ public class ProductListingTest extends BaseClass {
 		int prod_count = plp.getProductCount();
 		String url = plp.getPlpUrl();
 		String title = plp.getPlpTitle();
-		System.out.println("BreadCrumb: " + breadCrumbText);
-		System.out.println("Product Count: " + prod_count);
-		System.out.println("URL: " + url);
-		System.out.println("Title: " + title);
+		LOG.info("BreadCrumb: " + breadCrumbText);
+		LOG.info("Product Count: " + prod_count);
+		LOG.info("URL: " + url);
+		LOG.info("Title: " + title);
 		SoftAssert softly = new SoftAssert();
 		softly.assertTrue(breadCrumbText.toLowerCase().contains("shampoo"), "Breadcrumb does not contain Shampoo");
 

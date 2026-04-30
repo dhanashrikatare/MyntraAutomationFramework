@@ -125,13 +125,7 @@ public class ProductDetails {
 	}
 	
 	public void clickOnPincodeCheckField() {
-
-//		WaitFor.visibilityOfelement(Pincode);
-//		WaitFor.elementToBeClickaBle(Pincode);
-//		
-//		KeyWord.clickOn(Pincode);
-//		
-		WaitFor.visibilityOfelement(checkField);
+	WaitFor.visibilityOfelement(checkField);
 		WaitFor.elementToBeClickaBle(checkField);
 		KeyWord.clickOn(checkField);
 		

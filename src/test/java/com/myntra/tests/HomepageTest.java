@@ -3,7 +3,7 @@ package com.myntra.tests;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
-
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -11,6 +11,7 @@ import com.myntra.basetest.BaseClass;
 import com.myntra.basetest.KeyWord;
 import com.myntra.dataprovider.MyntraSearchTest;
 import com.myntra.hooks.Hooks;
+import com.myntra.listener.MyListener;
 import com.myntra.pages.BeautyPage;
 import com.myntra.pages.HomePage;
 import com.myntra.pages.LoginPage;
@@ -22,7 +23,7 @@ import com.myntra.utils.ConfigReader;
  * product searches with numbers, invalid product searches with keywords, and
  * invalid product searches with special characters.
  */
-
+@Listeners(MyListener.class)
 
 public class HomepageTest extends BaseClass {
 	private static final Logger LOG = LogManager.getLogger(HomepageTest.class);
