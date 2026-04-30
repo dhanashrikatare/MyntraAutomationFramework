@@ -1,5 +1,5 @@
 Feature:
-
+product details page filters functionality
   Background:
     Given User searches For The beauty Product
     And user applies some filter to select product
@@ -15,7 +15,7 @@ Verify PDP shows correct message for each tried pincode (valid/invalid)
 
   @ForEmptyPincodeField
   Scenario:
-test case to verify that when user tries to add product to cart and check delivery availability with blank pincode field then it should show error message
+  test case to verify that when user tries to add product to cart and check delivery availability with blank pincode field then it should show error message
 
     And user leaves pincode field as empty and click on check button
     Then user should see error message for that

@@ -3,11 +3,14 @@ package com.myntra.tests;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import com.myntra.basetest.BaseClass;
 import com.myntra.basetest.KeyWord;
+import com.myntra.dataprovider.LipstickDataProvider;
 import com.myntra.hooks.Hooks;
+import com.myntra.listener.MyListener;
 import com.myntra.pages.AddToCartPage;
 import com.myntra.pages.HomePage;
 import com.myntra.pages.ProductDetails;
@@ -19,8 +22,9 @@ import com.myntra.pages.ProductListingPage;
 import com.myntra.utils.WaitFor;
 import com.myntra.pages.LoginPage;
 
+@Listeners(MyListener.class)
 public class ProductDetailsPageTest extends BaseClass {
-	private static final Logger LOG = LogManager.getLogger(Hooks.class);
+	private static final Logger LOG = LogManager.getLogger(ProductDetailsPageTest.class);
 	/**
 	 * Test class for Product Details Page functionality.
 	 *
@@ -141,6 +145,74 @@ public class ProductDetailsPageTest extends BaseClass {
 
 		Assert.assertTrue(pdp.isGotoBagIsVisible(), "Go To Bag button did not appear after adding product to bag.");
 		softly.assertAll();
+	}
+
+	@Test(dataProvider = "pincodeData", dataProviderClass = LipstickDataProvider.class)
+	public void toVerifyTheAvailabilityOfProductWithValidPincode(String pincode) {
+		HomePage search = new HomePage();
+
+		search.enterTextOnSearchBar("Lipstick");
+		search.enterPressOnSearchBar();
+
+		ProductListingPage page = new ProductListingPage();
+		page.filterByGender("Women");
+		WaitFor.pageLoaded();
+		page.filterByBrand("Lakme");
+		WaitFor.pageLoaded();
+		page.sortBy("popularity");
+		WaitFor.pageLoaded();
+		page.filterByColour("Pink");
+		WaitFor.pageLoaded();
+		page.filterByDiscountRange("30% and above");
+		WaitFor.pageLoaded();
+		page.clickProduct(2);
+		WaitFor.pageLoaded();
+		KeyWord.switchToNewTab();
+
+		ProductDetails pdp = new ProductDetails();
+		pdp.clickOnPincodeButton();
+		pdp.enterPincode(pincode);
+		pdp.clickOnPincodeCheckField();
+		String availableMsg = pdp.getDeliveryAvailableMessage();
+		WaitFor.pageLoaded();
+		waitForSeconds(2000);
+		System.out.println(availableMsg);
+		LOG.info(availableMsg);
+		Assert.assertTrue(availableMsg.contains("Get it by"));
+
+	}
+	
+	
+	public void toVerifyProductNotAvailableForInvalidPincode(String pincode) {
+		HomePage search = new HomePage();
+
+		search.enterTextOnSearchBar("Lipstick");
+		search.enterPressOnSearchBar();
+
+		ProductListingPage page = new ProductListingPage();
+		page.filterByGender("Women");
+		WaitFor.pageLoaded();
+		page.filterByBrand("Lakme");
+		WaitFor.pageLoaded();
+		page.sortBy("popularity");
+		WaitFor.pageLoaded();
+		page.filterByColour("Pink");
+		WaitFor.pageLoaded();
+		page.filterByDiscountRange("30% and above");
+		WaitFor.pageLoaded();
+		page.clickProduct(2);
+		WaitFor.pageLoaded();
+		KeyWord.switchToNewTab();
+
+		ProductDetails pdp = new ProductDetails();
+		pdp.clickOnPincodeButton();
+		pdp.enterPincode(pincode);
+		pdp.clickOnPincodeCheckField();
+		String invalidPinMsg = pdp.getInvalidPinMessage();
+		waitForSeconds(2000);
+		System.out.println(invalidPinMsg);
+		LOG.info(invalidPinMsg);
+		Assert.assertTrue(invalidPinMsg.contains("Get it by"));
 	}
 
 	/**

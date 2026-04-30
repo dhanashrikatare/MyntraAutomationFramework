@@ -1,5 +1,7 @@
 package com.myntra.tests;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -34,6 +36,8 @@ import static com.myntra.basetest.KeyWord.*;
  * for UI interactions to keep tests readable and maintainable.
  */
 public class NavigationTests extends BaseClass {
+
+	private static final Logger LOG = LogManager.getLogger(NavigationTests.class);
 
 	@Test(description = "Verify that the Myntra homepage loads successfully and the logo is visible")
 	public void verifyHomepageLoads() {

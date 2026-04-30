@@ -5,12 +5,9 @@ import org.apache.logging.log4j.Logger;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
-import com.myntra.hooks.Hooks;
-import com.myntra.utils.ConfigReader;
-
 public class BaseClass {
 	
-	private static final Logger LOG = LogManager.getLogger(Hooks.class);
+	private static final Logger LOG = LogManager.getLogger(BaseClass.class);
 
 	/**
 	 * BaseClass ─────────────── This is the base class that all test classes will

@@ -44,7 +44,6 @@ public class AddToCartPage {
 	@FindBy(css = ".CheckDeliveryModalV2-base-checkBtn")
 	WebElement checkField;
 
-
 	@FindBy(xpath = "//div[@class=\"inputV2-base-errorMessage \"] ")
 
 	WebElement errorMSG;
@@ -64,6 +63,12 @@ public class AddToCartPage {
 	@FindBy(xpath = "//div[contains(text(),'item removed from bag. ')]")
 	WebElement ItemRemove;
 
+	@FindBy(xpath = "//div[@class=\"notifyContent notifyinfo\"]/div")
+	WebElement Itemsremove;
+
+	@FindBy(xpath = "//div[@class=\"notifyContent notifyinfo\"]/div")
+	WebElement getMsgAfterApplyCoupon;
+
 	@FindBy(xpath = "//div[@class=\"itemContainer-base-brand\"]")
 	WebElement productBrand;
 
@@ -73,32 +78,40 @@ public class AddToCartPage {
 	@FindBy(xpath = "//div[@class='itemContainer-base-brand']")
 	List<WebElement> productBrands;
 
-//	@FindBy(xpath = "//span[@class=\"itemComponents-base-rupeeBoldIcon\"]/parent::div")
-//	List<WebElement> productPrices;
-
-
 	@FindBy(xpath = "//div[@class=\"cartFillerProduct-base-cartFillerProduct\"]")
 	WebElement moreProducts;
-	
-	@FindBy(xpath="//div[@class=\"bulkActionStrip-selectionIcon\"]")
+
+	@FindBy(xpath = "//div[@class=\"bulkActionStrip-selectionIcon\"]")
 	WebElement CheckBox;
 
-	@FindBy(xpath="//span[@class=\"bulkActionStrip-itemSelected\"]")
+	@FindBy(xpath = "//span[@class=\"bulkActionStrip-itemSelected\"]")
 	WebElement getBagItemCount;
-	
-	@FindBy(xpath="//div[@class=\"emptyCart-base-emptyText\"]")
+
+	@FindBy(xpath = "//div[@class=\"emptyCart-base-emptyText\"]")
 	WebElement emptyCart;
 
-	@FindBy(xpath="//button[contains(text(),'MOVE TO WISHLIST')]")
+	@FindBy(xpath = "//button[contains(text(),'MOVE TO WISHLIST')]")
 	WebElement MoveWishList;
-	
-	@FindBy(xpath="//div[@class=\"inlinebuttonV2-base-actions \"]/child::div[2]")
-	WebElement movePopUpBtn;	
-	
-	
+
+	@FindBy(xpath = "//div[@class=\"inlinebuttonV2-base-actions \"]/child::div[2]")
+	WebElement movePopUpBtn;
+
+	@FindBy(xpath = "(//div[@class=\"itemComponents-base-animationContainer \"])[1]")
+	WebElement UnCheckTheCheckBox;
+
+	@FindBy(xpath = "(//div[contains(text(),'APPLY')])[1]")
+	WebElement ApplyBtn;
+
+	@FindBy(xpath = "//div[@class=\"coupons-base-label coupons-base-applied\"]")
+	WebElement appliedCoupon;
 
 	{
 		PageFactory.initElements(KeyWord.driver, this);
+	}
+
+	public void clickOnCheckBox() {
+		WaitFor.visibilityOfelement(UnCheckTheCheckBox);
+		UnCheckTheCheckBox.click();
 	}
 
 	public String getPageSource() {
@@ -110,17 +123,20 @@ public class AddToCartPage {
 
 	}
 
-	
+	public String getItemsRemoveMsg() {
+		WaitFor.visibilityOfelement(Itemsremove);
+		return Itemsremove.getText();
+	}
+
 	public boolean isEmptyCartDisplayed() {
 		WaitFor.visibilityOfelement(emptyCart);
 		return emptyCart.isDisplayed();
 	}
-	
+
 	public String getTexytOfEmptyCart() {
 		WaitFor.visibilityOfelement(emptyCart);
 		return emptyCart.getText().trim();
 	}
-
 
 	public void clickOnRemoveBtn() {
 		WaitFor.visibilityOfelement(removeBtn);
@@ -130,12 +146,10 @@ public class AddToCartPage {
 
 	}
 
-
 	public int getBagItemCount() {
-		String count=getBagItemCount.getText().trim();
-		 return Integer.parseInt(count.split("/")[0]);
+		String count = getBagItemCount.getText().trim();
+		return Integer.parseInt(count.split("/")[0]);
 	}
-	
 
 	public void clickOnRemovePopUpBtn() {
 		WaitFor.visibilityOfelement(removePopUpBtn);
@@ -145,11 +159,9 @@ public class AddToCartPage {
 
 	}
 
-
 	public void selectCheckBox() {
 		KeyWord.clickOn(CheckBox);
 	}
-	
 
 	public boolean isRemovePopUpDisplayed() {
 		try {
@@ -198,9 +210,6 @@ public class AddToCartPage {
 
 		}
 
-
-			
-		
 		return false;
 
 	}
@@ -215,8 +224,6 @@ public class AddToCartPage {
 		WaitFor.visibilityOfelement(ItemRemove);
 		return ItemRemove.getText();
 	}
-
-
 
 	public boolean isPlaceOrderBtnDisplayed() {
 		try {
@@ -256,17 +263,13 @@ public class AddToCartPage {
 
 		String Pricetext = text.replace("₹", "");
 
-
 		return Integer.parseInt(Pricetext);
 	}
 
 	/**
-<<<<<<< Updated upstream
-	 * Returns the brand text for the product at the given 0-based index in the cart.
-=======
-	 * Returns the brand text for the product at the given 0-based index in the
-	 * cart.
->>>>>>> Stashed changes
+	 * <<<<<<< Updated upstream Returns the brand text for the product at the given
+	 * 0-based index in the cart. ======= Returns the brand text for the product at
+	 * the given 0-based index in the cart. >>>>>>> Stashed changes
 	 */
 	public String getProductBrand(int index) {
 		By brandsBy = By.xpath("//div[@class='itemContainer-base-brand']");
@@ -275,12 +278,9 @@ public class AddToCartPage {
 	}
 
 	/**
-<<<<<<< Updated upstream
-	 * Returns the price (integer) for the product at the given 0-based index in the cart.
-=======
-	 * Returns the price (integer) for the product at the given 0-based index in the
-	 * cart.
->>>>>>> Stashed changes
+	 * <<<<<<< Updated upstream Returns the price (integer) for the product at the
+	 * given 0-based index in the cart. ======= Returns the price (integer) for the
+	 * product at the given 0-based index in the cart. >>>>>>> Stashed changes
 	 */
 	public int getPriceOfProduct(int index) {
 		By pricesBy = By.xpath("//span[@class=\"itemComponents-base-rupeeBoldIcon\"]/parent::div");
@@ -289,7 +289,6 @@ public class AddToCartPage {
 		String pricetext = text.replace("₹", "").replace("Rs.", "").replaceAll("[^0-9]", "");
 		return Integer.parseInt(pricetext);
 	}
-
 
 	public void ScrollCartWindow() {
 		KeyWord.scrollWindow();
@@ -308,7 +307,7 @@ public class AddToCartPage {
 		// TODO Auto-generated method stub
 		WaitFor.visibilityOfelement(MoveWishList);
 		KeyWord.clickOn(MoveWishList);
-		
+
 	}
 
 	public void clickOnMovePopUpBtn() {
@@ -319,5 +318,41 @@ public class AddToCartPage {
 		KeyWord.clickOn(movePopUpBtn);
 	}
 
+	public void apply() {
+		WaitFor.visibilityOfelement(ApplyBtn);
+		ApplyBtn.click();
+
+		// TODO Auto-generated method stub
+
+	}
+
+	@FindBy(css = ".modal-base-cancelIcon ")
+	WebElement closePopUp;
+
+	public void closeThePopUp() {
+		// TODO Auto-generated method stub
+		WaitFor.visibilityOfelement(closePopUp);
+		closePopUp.click();
+
+	}
+
+	public String getMsgAfterApplyingCoupon() {
+		// TODO Auto-generated method stub
+		WaitFor.visibilityOfelement(getMsgAfterApplyCoupon);
+		return getMsgAfterApplyCoupon.getText();
+	}
+
+	public boolean isCouponApplied() {
+		// TODO Auto-generated method stub
+
+		WaitFor.visibilityOfelement(appliedCoupon);
+		return appliedCoupon.isDisplayed();
+
+	}
+
+	public String getTextOfAppliedCoupon() {
+		WaitFor.visibilityOfelement(appliedCoupon);
+		return appliedCoupon.getText();
+	}
 
 }

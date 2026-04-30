@@ -1,5 +1,5 @@
 Feature:
-
+Product detail page functionality
   Background:
     Given User searches For The beauty Product
     When user click on the product on plp page
